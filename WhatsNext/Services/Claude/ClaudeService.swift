@@ -1,0 +1,110 @@
+import Foundation
+
+// MARK: - Claude Service
+
+/// Service for interacting with Claude CLI
+final class ClaudeService {
+    static let shared = ClaudeService()
+
+    private let processQueue = DispatchQueue(label: "com.whatsnext.claude", qos: .userInitiated)
+
+    private init() {}
+
+    // MARK: - Public Methods
+
+    /// Execute Claude CLI with the given prompt and return the response
+    func executePrompt(_ prompt: String, config: ClaudeConfiguration) async throws -> String {
+        try await withCheckedThrowingContinuation { continuation in
+            processQueue.async {
+                do {
+                    let result = try self.runClaudeCLI(prompt: prompt, config: config)
+                    continuation.resume(returning: result)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    /// Analyze sources and return suggested tasks
+    func analyzeSources(
+        items: [SourceItem],
+        explorations: [ExplorationResult],
+        config: ClaudeConfiguration
+    ) async throws -> [SuggestedTask] {
+        let prompt = PromptBuilder.buildAnalysisPrompt(
+            items: items,
+            explorations: explorations,
+            systemPrompt: config.systemPrompt
+        )
+
+        let response = try await executePrompt(prompt, config: config)
+        return try ResponseParser.parseTasksFromResponse(response)
+    }
+
+    // MARK: - Private Methods
+
+    private func runClaudeCLI(prompt: String, config: ClaudeConfiguration) throws -> String {
+        let process = Process()
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+        process.arguments = [
+            "claude",
+            "--print",
+            "--output-format", "json",
+            "--model", config.modelName,
+            "--max-tokens", String(config.maxTokens),
+            prompt
+        ]
+        process.standardOutput = outputPipe
+        process.standardError = errorPipe
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+        } catch {
+            throw ClaudeServiceError.cliNotFound
+        }
+
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+
+        if process.terminationStatus != 0 {
+            let errorMessage = String(data: errorData, encoding: .utf8) ?? "Unknown error"
+            throw ClaudeServiceError.executionFailed(errorMessage)
+        }
+
+        guard let output = String(data: outputData, encoding: .utf8) else {
+            throw ClaudeServiceError.invalidResponse
+        }
+
+        return output
+    }
+}
+
+// MARK: - Claude Service Error
+
+enum ClaudeServiceError: Error, LocalizedError {
+    case cliNotFound
+    case executionFailed(String)
+    case invalidResponse
+    case parsingFailed(String)
+    case timeout
+
+    var errorDescription: String? {
+        switch self {
+        case .cliNotFound:
+            return "Claude CLI not found. Please ensure 'claude' is installed and in PATH."
+        case .executionFailed(let message):
+            return "Claude CLI execution failed: \(message)"
+        case .invalidResponse:
+            return "Invalid response from Claude CLI"
+        case .parsingFailed(let message):
+            return "Failed to parse Claude response: \(message)"
+        case .timeout:
+            return "Claude CLI request timed out"
+        }
+    }
+}

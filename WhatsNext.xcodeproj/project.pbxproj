@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1000001 /* WhatsNextApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000001; };
+		A1000002 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000002; };
+		A1000003 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000003; };
+		A1000004 /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000004; };
+		A1000005 /* ExplorationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000005; };
+		A1000006 /* SourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000006; };
+		A1000007 /* ExplorationStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000007; };
+		A1000008 /* ExplorationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000008; };
+		A1000009 /* GitStatusStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000009; };
+		A1000010 /* TodoScannerStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000010; };
+		A1000011 /* RecentChangesStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000011; };
+		A1000012 /* ProjectStructureStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000012; };
+		A1000013 /* SourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000013; };
+		A1000014 /* FolderSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000014; };
+		A1000015 /* WebsiteSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000015; };
+		A1000016 /* RemindersSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000016; };
+		A1000017 /* MailSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000017; };
+		A1000018 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000018; };
+		A1000019 /* PromptBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000019; };
+		A1000020 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000020; };
+		A1000021 /* TerminalLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000021; };
+		A1000022 /* ClaudeSessionLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000022; };
+		A1000023 /* ConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000023; };
+		A1000024 /* MenuBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000024; };
+		A1000025 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000025; };
+		A1000026 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000026; };
+		A1000027 /* TaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000027; };
+		A1000028 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000028; };
+		A1000029 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000029; };
+		A1000030 /* SourceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000030; };
+		A1000031 /* ExplorationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000031; };
+		A1000032 /* PromptSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000032; };
+		A1000033 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1000033; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B1000001 /* WhatsNextApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNextApp.swift; sourceTree = "<group>"; };
+		B1000002 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		B1000003 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		B1000004 /* SourceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceItem.swift; sourceTree = "<group>"; };
+		B1000005 /* ExplorationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationResult.swift; sourceTree = "<group>"; };
+		B1000006 /* SourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceProvider.swift; sourceTree = "<group>"; };
+		B1000007 /* ExplorationStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationStrategy.swift; sourceTree = "<group>"; };
+		B1000008 /* ExplorationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationEngine.swift; sourceTree = "<group>"; };
+		B1000009 /* GitStatusStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitStatusStrategy.swift; sourceTree = "<group>"; };
+		B1000010 /* TodoScannerStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoScannerStrategy.swift; sourceTree = "<group>"; };
+		B1000011 /* RecentChangesStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentChangesStrategy.swift; sourceTree = "<group>"; };
+		B1000012 /* ProjectStructureStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStructureStrategy.swift; sourceTree = "<group>"; };
+		B1000013 /* SourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceManager.swift; sourceTree = "<group>"; };
+		B1000014 /* FolderSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderSourceProvider.swift; sourceTree = "<group>"; };
+		B1000015 /* WebsiteSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteSourceProvider.swift; sourceTree = "<group>"; };
+		B1000016 /* RemindersSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSourceProvider.swift; sourceTree = "<group>"; };
+		B1000017 /* MailSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailSourceProvider.swift; sourceTree = "<group>"; };
+		B1000018 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		B1000019 /* PromptBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptBuilder.swift; sourceTree = "<group>"; };
+		B1000020 /* ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
+		B1000021 /* TerminalLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalLauncher.swift; sourceTree = "<group>"; };
+		B1000022 /* ClaudeSessionLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeSessionLauncher.swift; sourceTree = "<group>"; };
+		B1000023 /* ConfigurationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationStore.swift; sourceTree = "<group>"; };
+		B1000024 /* MenuBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewModel.swift; sourceTree = "<group>"; };
+		B1000025 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		B1000026 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		B1000027 /* TaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowView.swift; sourceTree = "<group>"; };
+		B1000028 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B1000029 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
+		B1000030 /* SourceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceSettingsView.swift; sourceTree = "<group>"; };
+		B1000031 /* ExplorationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationSettingsView.swift; sourceTree = "<group>"; };
+		B1000032 /* PromptSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptSettingsView.swift; sourceTree = "<group>"; };
+		B1000033 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B1000034 /* WhatsNext.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsNext.entitlements; sourceTree = "<group>"; };
+		C1000001 /* WhatsNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D1000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1000001 = {
+			isa = PBXGroup;
+			children = (
+				E1000002 /* WhatsNext */,
+				E1000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1000002 /* WhatsNext */ = {
+			isa = PBXGroup;
+			children = (
+				E1000004 /* App */,
+				E1000005 /* Models */,
+				E1000006 /* Protocols */,
+				E1000007 /* Exploration */,
+				E1000009 /* Sources */,
+				E1000011 /* Services */,
+				E1000015 /* ViewModels */,
+				E1000016 /* Views */,
+				E1000020 /* Resources */,
+			);
+			path = WhatsNext;
+			sourceTree = "<group>";
+		};
+		E1000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C1000001 /* WhatsNext.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1000004 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B1000001 /* WhatsNextApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		E1000005 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B1000002 /* Configuration.swift */,
+				B1000003 /* Task.swift */,
+				B1000004 /* SourceItem.swift */,
+				B1000005 /* ExplorationResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E1000006 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B1000006 /* SourceProvider.swift */,
+				B1000007 /* ExplorationStrategy.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E1000007 /* Exploration */ = {
+			isa = PBXGroup;
+			children = (
+				B1000008 /* ExplorationEngine.swift */,
+				E1000008 /* Strategies */,
+			);
+			path = Exploration;
+			sourceTree = "<group>";
+		};
+		E1000008 /* Strategies */ = {
+			isa = PBXGroup;
+			children = (
+				B1000009 /* GitStatusStrategy.swift */,
+				B1000010 /* TodoScannerStrategy.swift */,
+				B1000011 /* RecentChangesStrategy.swift */,
+				B1000012 /* ProjectStructureStrategy.swift */,
+			);
+			path = Strategies;
+			sourceTree = "<group>";
+		};
+		E1000009 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B1000013 /* SourceManager.swift */,
+				E1000010 /* Providers */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		E1000010 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				B1000014 /* FolderSourceProvider.swift */,
+				B1000015 /* WebsiteSourceProvider.swift */,
+				B1000016 /* RemindersSourceProvider.swift */,
+				B1000017 /* MailSourceProvider.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		E1000011 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E1000012 /* Claude */,
+				E1000013 /* Execution */,
+				E1000014 /* Persistence */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E1000012 /* Claude */ = {
+			isa = PBXGroup;
+			children = (
+				B1000018 /* ClaudeService.swift */,
+				B1000019 /* PromptBuilder.swift */,
+				B1000020 /* ResponseParser.swift */,
+			);
+			path = Claude;
+			sourceTree = "<group>";
+		};
+		E1000013 /* Execution */ = {
+			isa = PBXGroup;
+			children = (
+				B1000021 /* TerminalLauncher.swift */,
+				B1000022 /* ClaudeSessionLauncher.swift */,
+			);
+			path = Execution;
+			sourceTree = "<group>";
+		};
+		E1000014 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				B1000023 /* ConfigurationStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		E1000015 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B1000024 /* MenuBarViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E1000016 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E1000017 /* MenuBar */,
+				E1000018 /* Settings */,
+				E1000019 /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E1000017 /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				B1000025 /* MenuBarView.swift */,
+				B1000026 /* TaskListView.swift */,
+				B1000027 /* TaskRowView.swift */,
+			);
+			path = MenuBar;
+			sourceTree = "<group>";
+		};
+		E1000018 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B1000028 /* SettingsView.swift */,
+				B1000029 /* GeneralSettingsView.swift */,
+				B1000030 /* SourceSettingsView.swift */,
+				B1000031 /* ExplorationSettingsView.swift */,
+				B1000032 /* PromptSettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		E1000019 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E1000020 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B1000033 /* Assets.xcassets */,
+				B1000034 /* WhatsNext.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F1000001 /* WhatsNext */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2000003 /* Build configuration list for PBXNativeTarget "WhatsNext" */;
+			buildPhases = (
+				F1000002 /* Sources */,
+				F1000003 /* Resources */,
+				D1000001 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WhatsNext;
+			productName = WhatsNext;
+			productReference = C1000001 /* WhatsNext.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F1000004 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					F1000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = F2000001 /* Build configuration list for PBXProject "WhatsNext" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E1000001;
+			productRefGroup = E1000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F1000001 /* WhatsNext */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F1000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000033 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F1000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000001 /* WhatsNextApp.swift in Sources */,
+				A1000002 /* Configuration.swift in Sources */,
+				A1000003 /* Task.swift in Sources */,
+				A1000004 /* SourceItem.swift in Sources */,
+				A1000005 /* ExplorationResult.swift in Sources */,
+				A1000006 /* SourceProvider.swift in Sources */,
+				A1000007 /* ExplorationStrategy.swift in Sources */,
+				A1000008 /* ExplorationEngine.swift in Sources */,
+				A1000009 /* GitStatusStrategy.swift in Sources */,
+				A1000010 /* TodoScannerStrategy.swift in Sources */,
+				A1000011 /* RecentChangesStrategy.swift in Sources */,
+				A1000012 /* ProjectStructureStrategy.swift in Sources */,
+				A1000013 /* SourceManager.swift in Sources */,
+				A1000014 /* FolderSourceProvider.swift in Sources */,
+				A1000015 /* WebsiteSourceProvider.swift in Sources */,
+				A1000016 /* RemindersSourceProvider.swift in Sources */,
+				A1000017 /* MailSourceProvider.swift in Sources */,
+				A1000018 /* ClaudeService.swift in Sources */,
+				A1000019 /* PromptBuilder.swift in Sources */,
+				A1000020 /* ResponseParser.swift in Sources */,
+				A1000021 /* TerminalLauncher.swift in Sources */,
+				A1000022 /* ClaudeSessionLauncher.swift in Sources */,
+				A1000023 /* ConfigurationStore.swift in Sources */,
+				A1000024 /* MenuBarViewModel.swift in Sources */,
+				A1000025 /* MenuBarView.swift in Sources */,
+				A1000026 /* TaskListView.swift in Sources */,
+				A1000027 /* TaskRowView.swift in Sources */,
+				A1000028 /* SettingsView.swift in Sources */,
+				A1000029 /* GeneralSettingsView.swift in Sources */,
+				A1000030 /* SourceSettingsView.swift in Sources */,
+				A1000031 /* ExplorationSettingsView.swift in Sources */,
+				A1000032 /* PromptSettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F2000002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F2000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		F2000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WhatsNext/Resources/WhatsNext.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "What's Next";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whatsnext.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F2000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WhatsNext/Resources/WhatsNext.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "What's Next";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whatsnext.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F2000001 /* Build configuration list for PBXProject "WhatsNext" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2000002 /* Debug */,
+				F2000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2000003 /* Build configuration list for PBXNativeTarget "WhatsNext" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2000005 /* Debug */,
+				F2000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F1000004 /* Project object */;
+}
