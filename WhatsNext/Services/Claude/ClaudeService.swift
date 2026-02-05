@@ -44,14 +44,34 @@ final class ClaudeService {
 
     // MARK: - Private Methods
 
+    private func findClaudeCLI() -> URL? {
+        // Common locations for claude CLI
+        let possiblePaths = [
+            "\(NSHomeDirectory())/.local/bin/claude",
+            "/usr/local/bin/claude",
+            "/opt/homebrew/bin/claude",
+            "/usr/bin/claude"
+        ]
+
+        for path in possiblePaths {
+            if FileManager.default.fileExists(atPath: path) {
+                return URL(fileURLWithPath: path)
+            }
+        }
+        return nil
+    }
+
     private func runClaudeCLI(prompt: String, config: ClaudeConfiguration) throws -> String {
+        guard let claudePath = findClaudeCLI() else {
+            throw ClaudeServiceError.cliNotFound
+        }
+
         let process = Process()
         let outputPipe = Pipe()
         let errorPipe = Pipe()
 
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+        process.executableURL = claudePath
         process.arguments = [
-            "claude",
             "--print",
             "--output-format", "json",
             "--model", config.modelName,
