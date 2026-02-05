@@ -126,8 +126,8 @@ struct MenuBarView: View {
             Spacer()
 
             Menu {
-                Button("Settings...") {
-                    viewModel.openSettings()
+                SettingsLink {
+                    Text("Settings...")
                 }
 
                 Divider()
