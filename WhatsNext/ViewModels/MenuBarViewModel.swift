@@ -119,7 +119,14 @@ final class MenuBarViewModel: ObservableObject {
 
     /// Open settings window
     func openSettings() {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        // Try multiple approaches for opening settings
+        if #available(macOS 14.0, *) {
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        } else {
+            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+        }
+        // Bring app to front
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     /// Quit the application
