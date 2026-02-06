@@ -89,7 +89,12 @@ enum ResponseParser {
     }
 
     /// Alternative parsing for malformed responses
-    private static func parseTasksAlternative(from jsonString: String) throws -> [SuggestedTask] {
+    private static func parseTasksAlternative(
+        from jsonString: String,
+        modelUsed: String = "",
+        promptExcerpt: String = "",
+        sourceNames: [String] = []
+    ) throws -> [SuggestedTask] {
         // Try to parse as array of tasks directly
         guard let data = jsonString.data(using: .utf8) else {
             throw ClaudeServiceError.parsingFailed("Could not convert to data")
@@ -97,20 +102,38 @@ enum ResponseParser {
 
         // Try parsing as tasks array
         if let tasksArray = try? JSONDecoder().decode([ClaudeTaskItem].self, from: data) {
-            return tasksArray.map { $0.toSuggestedTask() }
+            return tasksArray.map {
+                $0.toSuggestedTask(
+                    modelUsed: modelUsed,
+                    promptExcerpt: promptExcerpt,
+                    sourceNames: sourceNames
+                )
+            }
         }
 
         // Try parsing with a more lenient approach
         if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
            let tasksArray = json["tasks"] as? [[String: Any]] {
-            return tasksArray.compactMap { parseTaskFromDictionary($0) }
+            return tasksArray.compactMap {
+                parseTaskFromDictionary(
+                    $0,
+                    modelUsed: modelUsed,
+                    promptExcerpt: promptExcerpt,
+                    sourceNames: sourceNames
+                )
+            }
         }
 
         throw ClaudeServiceError.parsingFailed("Could not parse response as tasks")
     }
 
     /// Parse a single task from a dictionary (for lenient parsing)
-    private static func parseTaskFromDictionary(_ dict: [String: Any]) -> SuggestedTask? {
+    private static func parseTaskFromDictionary(
+        _ dict: [String: Any],
+        modelUsed: String = "",
+        promptExcerpt: String = "",
+        sourceNames: [String] = []
+    ) -> SuggestedTask? {
         guard let title = dict["title"] as? String,
               let description = dict["description"] as? String else {
             return nil
@@ -120,6 +143,7 @@ enum ResponseParser {
         let priority = TaskPriority(rawValue: priorityString.lowercased()) ?? .medium
 
         let estimatedMinutes = dict["estimatedMinutes"] as? Int
+        let reasoning = dict["reasoning"] as? String
 
         var actionPlan: [ActionStep] = []
         if let actionPlanArray = dict["actionPlan"] as? [[String: Any]] {
@@ -132,13 +156,22 @@ enum ResponseParser {
 
         let suggestedCommand = dict["suggestedCommand"] as? String
 
+        let log = GenerationLog(
+            generatedAt: Date(),
+            sourceNames: sourceNames,
+            reasoning: reasoning ?? "",
+            modelUsed: modelUsed,
+            promptExcerpt: promptExcerpt
+        )
+
         return SuggestedTask(
             title: title,
             description: description,
             priority: priority,
             estimatedMinutes: estimatedMinutes,
             actionPlan: actionPlan,
-            suggestedCommand: suggestedCommand
+            suggestedCommand: suggestedCommand,
+            generationLog: log
         )
     }
 
