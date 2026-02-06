@@ -6,6 +6,7 @@ struct TaskRowView: View {
     let task: SuggestedTask
     let onExecute: () -> Void
     let onDismiss: () -> Void
+    let onComplete: () -> Void
 
     @State private var isHovered = false
     @State private var isExpanded = false
@@ -37,6 +38,11 @@ struct TaskRowView: View {
                                 .font(.caption2)
                                 .foregroundColor(.secondary)
                         }
+
+                        // First seen
+                        Text("added \(task.createdAt.formatted(.relative(presentation: .named)))")
+                            .font(.caption2)
+                            .foregroundColor(.secondary.opacity(0.7))
                     }
                 }
 
@@ -85,6 +91,14 @@ struct TaskRowView: View {
 
     private var actionButtons: some View {
         HStack(spacing: 4) {
+            Button(action: onComplete) {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 10))
+            }
+            .buttonStyle(.bordered)
+            .tint(.green)
+            .help("Mark as completed")
+
             Button(action: onExecute) {
                 Image(systemName: "play.fill")
                     .font(.system(size: 10))
@@ -158,6 +172,56 @@ struct TaskRowView: View {
                 }
             }
 
+            // Generation log info
+            if let log = task.generationLog {
+                VStack(alignment: .leading, spacing: 4) {
+                    if !log.reasoning.isEmpty {
+                        HStack(alignment: .top, spacing: 4) {
+                            Text("Why:")
+                                .font(.caption2)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.secondary)
+                            Text(log.reasoning)
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+
+                    if !log.sourceNames.isEmpty {
+                        HStack(alignment: .top, spacing: 4) {
+                            Text("Sources:")
+                                .font(.caption2)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.secondary)
+                            Text(log.sourceNames.joined(separator: ", "))
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                                .lineLimit(2)
+                        }
+                    }
+
+                    DisclosureGroup("Generation Details") {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Model: \(log.modelUsed)")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                            Text("Generated: \(log.generatedAt.formatted(.relative(presentation: .named)))")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                            if !log.promptExcerpt.isEmpty {
+                                Text("Prompt: \(log.promptExcerpt)...")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                                    .lineLimit(3)
+                            }
+                        }
+                    }
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                }
+            }
+
             // Execute button
             Button(action: onExecute) {
                 HStack {
@@ -196,7 +260,8 @@ struct TaskRowView: View {
                 )
             ),
             onExecute: {},
-            onDismiss: {}
+            onDismiss: {},
+            onComplete: {}
         )
 
         TaskRowView(
@@ -207,7 +272,8 @@ struct TaskRowView: View {
                 sourceInfo: SourceInfo(sourceType: .mail, sourceName: "Mail")
             ),
             onExecute: {},
-            onDismiss: {}
+            onDismiss: {},
+            onComplete: {}
         )
     }
     .padding()
