@@ -32,7 +32,7 @@ final class ClaudeService {
         explorations: [ExplorationResult],
         config: ClaudeConfiguration
     ) async throws -> [SuggestedTask] {
-        print("[WhatsNext] Analyzing \(items.count) items and \(explorations.count) explorations")
+        NSLog("[WhatsNext] Analyzing \(items.count) items and \(explorations.count) explorations")
 
         let prompt = PromptBuilder.buildAnalysisPrompt(
             items: items,
@@ -40,14 +40,14 @@ final class ClaudeService {
             systemPrompt: config.systemPrompt
         )
 
-        print("[WhatsNext] Prompt length: \(prompt.count) characters")
+        NSLog("[WhatsNext] Prompt length: \(prompt.count) characters")
 
         let response = try await executePrompt(prompt, config: config)
-        print("[WhatsNext] Response length: \(response.count) characters")
-        print("[WhatsNext] Response preview: \(String(response.prefix(500)))")
+        NSLog("[WhatsNext] Response length: \(response.count) characters")
+        NSLog("[WhatsNext] Response preview: \(String(response.prefix(500)))")
 
         let tasks = try ResponseParser.parseTasksFromResponse(response)
-        print("[WhatsNext] Parsed \(tasks.count) tasks")
+        NSLog("[WhatsNext] Parsed \(tasks.count) tasks")
 
         return tasks
     }
