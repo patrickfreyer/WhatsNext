@@ -71,36 +71,36 @@ final class MenuBarViewModel: ObservableObject {
     /// Refresh tasks from all sources
     func refresh() async {
         guard !isRefreshing else {
-            print("[WhatsNext] Refresh already in progress, skipping")
+            NSLog("[WhatsNext] Refresh already in progress, skipping")
             return
         }
 
-        print("[WhatsNext] Starting refresh...")
+        NSLog("[WhatsNext] Starting refresh...")
         isRefreshing = true
         errorMessage = nil
 
         do {
             // Fetch from all sources
-            print("[WhatsNext] Fetching from sources...")
+            NSLog("[WhatsNext] Fetching from sources...")
             let (items, explorations) = await sourceManager.fetchAllItems()
-            print("[WhatsNext] Fetched \(items.count) items and \(explorations.count) explorations")
+            NSLog("[WhatsNext] Fetched \(items.count) items and \(explorations.count) explorations")
 
             // Analyze with Claude
-            print("[WhatsNext] Calling Claude for analysis...")
+            NSLog("[WhatsNext] Calling Claude for analysis...")
             let suggestedTasks = try await claudeService.analyzeSources(
                 items: items,
                 explorations: explorations,
                 config: configStore.configuration.claude
             )
-            print("[WhatsNext] Claude returned \(suggestedTasks.count) tasks")
+            NSLog("[WhatsNext] Claude returned \(suggestedTasks.count) tasks")
 
             // Update tasks
             taskStore.updateTasks(suggestedTasks)
             lastRefreshDate = Date()
-            print("[WhatsNext] Refresh completed successfully")
+            NSLog("[WhatsNext] Refresh completed successfully")
 
         } catch {
-            print("[WhatsNext] Refresh failed: \(error)")
+            NSLog("[WhatsNext] Refresh failed: \(error)")
             errorMessage = error.localizedDescription
         }
 
