@@ -193,9 +193,23 @@ struct ClaudeTaskItem: Codable {
     var estimatedMinutes: Int?
     var actionPlan: [ClaudeActionStep]?
     var suggestedCommand: String?
+    var reasoning: String?
 
-    func toSuggestedTask(sourceInfo: SourceInfo? = nil) -> SuggestedTask {
-        SuggestedTask(
+    func toSuggestedTask(
+        sourceInfo: SourceInfo? = nil,
+        modelUsed: String = "",
+        promptExcerpt: String = "",
+        sourceNames: [String] = []
+    ) -> SuggestedTask {
+        let log = GenerationLog(
+            generatedAt: Date(),
+            sourceNames: sourceNames,
+            reasoning: reasoning ?? "",
+            modelUsed: modelUsed,
+            promptExcerpt: promptExcerpt
+        )
+
+        return SuggestedTask(
             title: title,
             description: description,
             priority: TaskPriority(rawValue: priority.lowercased()) ?? .medium,
@@ -204,7 +218,8 @@ struct ClaudeTaskItem: Codable {
                 ActionStep(stepNumber: index + 1, description: step.description, command: step.command)
             } ?? [],
             suggestedCommand: suggestedCommand,
-            sourceInfo: sourceInfo
+            sourceInfo: sourceInfo,
+            generationLog: log
         )
     }
 }
