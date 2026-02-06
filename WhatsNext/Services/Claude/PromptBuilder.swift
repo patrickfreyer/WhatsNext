@@ -112,6 +112,7 @@ enum PromptBuilder {
               "description": "...",
               "priority": "high|medium|low",
               "estimatedMinutes": 30,
+              "reasoning": "Brief explanation of why this task was suggested",
               "actionPlan": [{"step": 1, "description": "...", "command": null}],
               "suggestedCommand": "..."
             }
