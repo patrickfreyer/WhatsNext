@@ -7,8 +7,14 @@ enum ResponseParser {
 
     /// Parse tasks from Claude's JSON response
     static func parseTasksFromResponse(_ response: String) throws -> [SuggestedTask] {
-        // Try to extract JSON from the response
-        let jsonString = extractJSON(from: response)
+        // Step 1: Extract the actual result from Claude CLI wrapper
+        let actualResult = extractResultFromCLIResponse(response)
+
+        // Step 2: Remove markdown code fences if present
+        let cleanedResult = removeMarkdownCodeFences(from: actualResult)
+
+        // Step 3: Extract JSON from the cleaned result
+        let jsonString = extractJSON(from: cleanedResult)
 
         guard let data = jsonString.data(using: .utf8) else {
             throw ClaudeServiceError.parsingFailed("Could not convert response to data")
@@ -22,6 +28,36 @@ enum ResponseParser {
             // Try alternative parsing
             return try parseTasksAlternative(from: jsonString)
         }
+    }
+
+    /// Extract the 'result' field from Claude CLI JSON wrapper response
+    private static func extractResultFromCLIResponse(_ response: String) -> String {
+        guard let data = response.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let result = json["result"] as? String else {
+            // Not a CLI wrapper, return as-is
+            return response
+        }
+        return result
+    }
+
+    /// Remove markdown code fences (```json ... ```)
+    private static func removeMarkdownCodeFences(from text: String) -> String {
+        var result = text
+
+        // Remove ```json or ``` at the start
+        if result.hasPrefix("```json") {
+            result = String(result.dropFirst(7))
+        } else if result.hasPrefix("```") {
+            result = String(result.dropFirst(3))
+        }
+
+        // Remove ``` at the end
+        if result.hasSuffix("```") {
+            result = String(result.dropLast(3))
+        }
+
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     /// Extract JSON from a response that might have other text
