@@ -3,46 +3,57 @@ import Foundation
 
 // MARK: - Terminal Launcher
 
-/// Launches commands in Terminal.app
+/// Launches commands in iTerm2
 enum TerminalLauncher {
 
-    /// Launch a command in Terminal
+    /// Launch a command in iTerm2 (new tab in existing window, or new window if none open)
     static func launch(command: String, workingDirectory: String? = nil) {
-        var script = ""
+        var shellCommand: String
 
         if let dir = workingDirectory {
-            script = """
-            tell application "Terminal"
-                activate
-                do script "cd '\(escapeForAppleScript(dir))' && \(escapeForAppleScript(command))"
-            end tell
-            """
+            shellCommand = "cd '\(escapeForAppleScript(dir))' && \(escapeForAppleScript(command))"
         } else {
-            script = """
-            tell application "Terminal"
-                activate
-                do script "\(escapeForAppleScript(command))"
-            end tell
-            """
+            shellCommand = escapeForAppleScript(command)
         }
+
+        let script = """
+        tell application "iTerm2"
+            activate
+            if (count of windows) = 0 then
+                create window with default profile
+                tell current session of current window
+                    write text "\(shellCommand)"
+                end tell
+            else
+                tell current window
+                    create tab with default profile
+                    tell current session
+                        write text "\(shellCommand)"
+                    end tell
+                end tell
+            end if
+        end tell
+        """
 
         executeAppleScript(script)
     }
 
-    /// Launch Claude with a specific prompt in Terminal
+    /// Launch Claude with a specific prompt in iTerm2
     static func launchClaude(prompt: String, workingDirectory: String? = nil) {
-        // Escape the prompt for shell
         let escapedPrompt = escapeForShell(prompt)
         let command = "claude \"\(escapedPrompt)\""
         launch(command: command, workingDirectory: workingDirectory)
     }
 
-    /// Open a new Terminal window at a specific directory
+    /// Open a new iTerm2 window at a specific directory
     static func openTerminal(at directory: String) {
         let script = """
-        tell application "Terminal"
+        tell application "iTerm2"
             activate
-            do script "cd '\(escapeForAppleScript(directory))'"
+            set newWindow to (create window with default profile)
+            tell current session of newWindow
+                write text "cd '\(escapeForAppleScript(directory))'"
+            end tell
         end tell
         """
         executeAppleScript(script)
