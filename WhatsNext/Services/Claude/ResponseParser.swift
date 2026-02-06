@@ -6,7 +6,12 @@ import Foundation
 enum ResponseParser {
 
     /// Parse tasks from Claude's JSON response
-    static func parseTasksFromResponse(_ response: String) throws -> [SuggestedTask] {
+    static func parseTasksFromResponse(
+        _ response: String,
+        modelUsed: String = "",
+        promptExcerpt: String = "",
+        sourceNames: [String] = []
+    ) throws -> [SuggestedTask] {
         // Step 1: Extract the actual result from Claude CLI wrapper
         let actualResult = extractResultFromCLIResponse(response)
 
@@ -23,10 +28,21 @@ enum ResponseParser {
         do {
             let decoder = JSONDecoder()
             let taskResponse = try decoder.decode(ClaudeTaskResponse.self, from: data)
-            return taskResponse.tasks.map { $0.toSuggestedTask() }
+            return taskResponse.tasks.map {
+                $0.toSuggestedTask(
+                    modelUsed: modelUsed,
+                    promptExcerpt: promptExcerpt,
+                    sourceNames: sourceNames
+                )
+            }
         } catch {
             // Try alternative parsing
-            return try parseTasksAlternative(from: jsonString)
+            return try parseTasksAlternative(
+                from: jsonString,
+                modelUsed: modelUsed,
+                promptExcerpt: promptExcerpt,
+                sourceNames: sourceNames
+            )
         }
     }
 
