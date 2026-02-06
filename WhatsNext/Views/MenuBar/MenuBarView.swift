@@ -53,8 +53,11 @@ struct MenuBarView: View {
             }
 
             Button(action: {
+                debugLog("Refresh button clicked")
                 Task {
+                    debugLog("Starting refresh task")
                     await viewModel.refresh()
+                    debugLog("Refresh task completed")
                 }
             }) {
                 Image(systemName: "arrow.clockwise")
