@@ -64,6 +64,13 @@ final class MenuBarViewModel: ObservableObject {
 
         // Start refresh timer
         setupRefreshTimer()
+
+        // Auto-refresh on startup for testing
+        debugLog("[WhatsNext] ViewModel initialized, triggering auto-refresh")
+        Task {
+            try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 second delay
+            await refresh()
+        }
     }
 
     // MARK: - Public Methods
