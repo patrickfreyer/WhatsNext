@@ -20,7 +20,7 @@ func debugLog(_ message: String) {
             try? data.write(to: logFile)
         }
     }
-    NSLog("[WhatsNext] %@", message)
+    debugLog("[WhatsNext] %@", message)
 }
 
 // MARK: - Menu Bar View Model
@@ -92,36 +92,36 @@ final class MenuBarViewModel: ObservableObject {
     /// Refresh tasks from all sources
     func refresh() async {
         guard !isRefreshing else {
-            NSLog("[WhatsNext] Refresh already in progress, skipping")
+            debugLog("[WhatsNext] Refresh already in progress, skipping")
             return
         }
 
-        NSLog("[WhatsNext] Starting refresh...")
+        debugLog("[WhatsNext] Starting refresh...")
         isRefreshing = true
         errorMessage = nil
 
         do {
             // Fetch from all sources
-            NSLog("[WhatsNext] Fetching from sources...")
+            debugLog("[WhatsNext] Fetching from sources...")
             let (items, explorations) = await sourceManager.fetchAllItems()
-            NSLog("[WhatsNext] Fetched \(items.count) items and \(explorations.count) explorations")
+            debugLog("[WhatsNext] Fetched \(items.count) items and \(explorations.count) explorations")
 
             // Analyze with Claude
-            NSLog("[WhatsNext] Calling Claude for analysis...")
+            debugLog("[WhatsNext] Calling Claude for analysis...")
             let suggestedTasks = try await claudeService.analyzeSources(
                 items: items,
                 explorations: explorations,
                 config: configStore.configuration.claude
             )
-            NSLog("[WhatsNext] Claude returned \(suggestedTasks.count) tasks")
+            debugLog("[WhatsNext] Claude returned \(suggestedTasks.count) tasks")
 
             // Update tasks
             taskStore.updateTasks(suggestedTasks)
             lastRefreshDate = Date()
-            NSLog("[WhatsNext] Refresh completed successfully")
+            debugLog("[WhatsNext] Refresh completed successfully")
 
         } catch {
-            NSLog("[WhatsNext] Refresh failed: \(error)")
+            debugLog("[WhatsNext] Refresh failed: \(error)")
             errorMessage = error.localizedDescription
         }
 
