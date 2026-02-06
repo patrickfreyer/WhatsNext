@@ -22,6 +22,7 @@ enum PromptBuilder {
               "description": "Why this task is important",
               "priority": "high|medium|low",
               "estimatedMinutes": 30,
+              "reasoning": "Brief explanation of why this task was suggested",
               "actionPlan": [
                 {"step": 1, "description": "First step", "command": null},
                 {"step": 2, "description": "Second step", "command": "optional claude command"}
