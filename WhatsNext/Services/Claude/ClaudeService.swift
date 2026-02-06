@@ -46,7 +46,14 @@ final class ClaudeService {
         debugLog("[WhatsNext] Response length: \(response.count) characters")
         debugLog("[WhatsNext] Response preview: \(String(response.prefix(500)))")
 
-        let tasks = try ResponseParser.parseTasksFromResponse(response)
+        let promptExcerpt = String(prompt.prefix(200))
+        let sourceNames = items.map { $0.sourceName }
+        let tasks = try ResponseParser.parseTasksFromResponse(
+            response,
+            modelUsed: config.modelName,
+            promptExcerpt: promptExcerpt,
+            sourceNames: sourceNames
+        )
         debugLog("[WhatsNext] Parsed \(tasks.count) tasks")
 
         return tasks
