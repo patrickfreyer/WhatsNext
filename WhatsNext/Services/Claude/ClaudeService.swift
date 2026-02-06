@@ -81,11 +81,20 @@ final class ClaudeService {
         let errorPipe = Pipe()
 
         process.executableURL = claudePath
+        // Map model name to Claude CLI alias
+        let modelAlias: String
+        if config.modelName.contains("opus") {
+            modelAlias = "opus"
+        } else if config.modelName.contains("haiku") {
+            modelAlias = "haiku"
+        } else {
+            modelAlias = "sonnet" // default
+        }
+
         process.arguments = [
             "--print",
             "--output-format", "json",
-            "--model", config.modelName,
-            "--max-tokens", String(config.maxTokens),
+            "--model", modelAlias,
             prompt
         ]
         process.standardOutput = outputPipe
