@@ -45,15 +45,24 @@ enum TerminalLauncher {
         launch(command: command, workingDirectory: workingDirectory)
     }
 
-    /// Open a new iTerm2 window at a specific directory
+    /// Open a new iTerm2 tab at a specific directory (or new window if none open)
     static func openTerminal(at directory: String) {
         let script = """
         tell application "iTerm2"
             activate
-            set newWindow to (create window with default profile)
-            tell current session of newWindow
-                write text "cd '\(escapeForAppleScript(directory))'"
-            end tell
+            if (count of windows) = 0 then
+                create window with default profile
+                tell current session of current window
+                    write text "cd '\(escapeForAppleScript(directory))'"
+                end tell
+            else
+                tell current window
+                    create tab with default profile
+                    tell current session
+                        write text "cd '\(escapeForAppleScript(directory))'"
+                    end tell
+                end tell
+            end if
         end tell
         """
         executeAppleScript(script)
