@@ -199,6 +199,7 @@
 				E1000012 /* Claude */,
 				E1000013 /* Execution */,
 				E1000014 /* Persistence */,
+				B1000035 /* DebugLogger.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
