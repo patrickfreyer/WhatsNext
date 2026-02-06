@@ -1,5 +1,42 @@
 import Foundation
 
+// MARK: - Task Status
+
+enum TaskStatus: String, Codable, CaseIterable {
+    case pending
+    case inProgress
+    case completed
+    case dismissed
+
+    var displayName: String {
+        switch self {
+        case .pending: return "Pending"
+        case .inProgress: return "In Progress"
+        case .completed: return "Completed"
+        case .dismissed: return "Dismissed"
+        }
+    }
+
+    var sortOrder: Int {
+        switch self {
+        case .inProgress: return 0
+        case .pending: return 1
+        case .completed: return 2
+        case .dismissed: return 3
+        }
+    }
+}
+
+// MARK: - Generation Log
+
+struct GenerationLog: Codable {
+    var generatedAt: Date
+    var sourceNames: [String]
+    var reasoning: String
+    var modelUsed: String
+    var promptExcerpt: String
+}
+
 // MARK: - Suggested Task
 
 struct SuggestedTask: Codable, Identifiable {
@@ -11,7 +48,10 @@ struct SuggestedTask: Codable, Identifiable {
     var actionPlan: [ActionStep]
     var suggestedCommand: String?
     var sourceInfo: SourceInfo?
+    var status: TaskStatus
     var createdAt: Date
+    var updatedAt: Date
+    var generationLog: GenerationLog?
 
     init(
         id: UUID = UUID(),
@@ -22,7 +62,10 @@ struct SuggestedTask: Codable, Identifiable {
         actionPlan: [ActionStep] = [],
         suggestedCommand: String? = nil,
         sourceInfo: SourceInfo? = nil,
-        createdAt: Date = Date()
+        status: TaskStatus = .pending,
+        createdAt: Date = Date(),
+        updatedAt: Date = Date(),
+        generationLog: GenerationLog? = nil
     ) {
         self.id = id
         self.title = title
@@ -32,7 +75,15 @@ struct SuggestedTask: Codable, Identifiable {
         self.actionPlan = actionPlan
         self.suggestedCommand = suggestedCommand
         self.sourceInfo = sourceInfo
+        self.status = status
         self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.generationLog = generationLog
+    }
+
+    /// Normalized title for matching tasks across refreshes
+    var normalizedTitle: String {
+        title.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 
