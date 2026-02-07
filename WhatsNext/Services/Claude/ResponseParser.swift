@@ -144,7 +144,9 @@ enum ResponseParser {
         _ dict: [String: Any],
         modelUsed: String = "",
         promptExcerpt: String = "",
-        sourceNames: [String] = []
+        sourceNames: [String] = [],
+        fullPrompt: String? = nil,
+        fullResponse: String? = nil
     ) -> SuggestedTask? {
         guard let title = dict["title"] as? String,
               let description = dict["description"] as? String else {
