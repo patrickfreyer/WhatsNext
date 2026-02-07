@@ -35,6 +35,8 @@ struct GenerationLog: Codable {
     var reasoning: String
     var modelUsed: String
     var promptExcerpt: String
+    var fullPrompt: String?
+    var fullResponse: String?
 }
 
 // MARK: - Suggested Task
