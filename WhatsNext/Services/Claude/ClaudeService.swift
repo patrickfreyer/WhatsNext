@@ -8,6 +8,11 @@ final class ClaudeService {
 
     private let processQueue = DispatchQueue(label: "com.whatsnext.claude", qos: .userInitiated)
 
+    /// JSON schema for structured task output, enforced by --json-schema
+    static let taskResponseSchema: String = """
+    {"type":"object","properties":{"tasks":{"type":"array","items":{"type":"object","properties":{"title":{"type":"string"},"description":{"type":"string"},"priority":{"type":"string","enum":["high","medium","low"]},"estimatedMinutes":{"type":"integer"},"reasoning":{"type":"string"},"actionPlan":{"type":"array","items":{"type":"object","properties":{"step":{"type":"integer"},"description":{"type":"string"},"command":{"type":["string","null"]}},"required":["step","description"]}},"suggestedCommand":{"type":["string","null"]},"sourceType":{"type":"string","enum":["folder","website","reminders","mail"]},"sourceName":{"type":"string"}},"required":["title","description","priority","reasoning","actionPlan"]}}},"required":["tasks"]}
+    """
+
     private init() {}
 
     // MARK: - Public Methods
@@ -30,14 +35,16 @@ final class ClaudeService {
     func analyzeSources(
         items: [SourceItem],
         explorations: [ExplorationResult],
-        config: ClaudeConfiguration
+        config: ClaudeConfiguration,
+        feedbackSection: String? = nil
     ) async throws -> [SuggestedTask] {
         debugLog("[WhatsNext] Analyzing \(items.count) items and \(explorations.count) explorations")
 
         let prompt = PromptBuilder.buildAnalysisPrompt(
             items: items,
             explorations: explorations,
-            systemPrompt: config.systemPrompt
+            systemPrompt: config.systemPrompt,
+            feedbackSection: feedbackSection
         )
 
         debugLog("[WhatsNext] Prompt length: \(prompt.count) characters")
@@ -48,7 +55,9 @@ final class ClaudeService {
 
         let promptExcerpt = String(prompt.prefix(200))
         let sourceNames = items.map { $0.sourceName }
-        let tasks = try ResponseParser.parseTasksFromResponse(
+
+        // Try structured_output first (from --json-schema), fall back to result field
+        let tasks = try ResponseParser.parseTasksFromCLIResponse(
             response,
             modelUsed: config.modelName,
             promptExcerpt: promptExcerpt,
@@ -64,7 +73,6 @@ final class ClaudeService {
     // MARK: - Private Methods
 
     private func findClaudeCLI() -> URL? {
-        // Common locations for claude CLI
         let possiblePaths = [
             "\(NSHomeDirectory())/.local/bin/claude",
             "/usr/local/bin/claude",
@@ -90,6 +98,7 @@ final class ClaudeService {
         let errorPipe = Pipe()
 
         process.executableURL = claudePath
+
         // Map model name to Claude CLI alias
         let modelAlias: String
         if config.modelName.contains("opus") {
@@ -97,13 +106,19 @@ final class ClaudeService {
         } else if config.modelName.contains("haiku") {
             modelAlias = "haiku"
         } else {
-            modelAlias = "sonnet" // default
+            modelAlias = "sonnet"
         }
+
+        let toolsList = config.explorationTools.joined(separator: ",")
+        let budgetString = String(format: "%.2f", config.maxBudgetUSD)
 
         process.arguments = [
             "--print",
             "--output-format", "json",
             "--model", modelAlias,
+            "--json-schema", Self.taskResponseSchema,
+            "--tools", toolsList,
+            "--max-budget-usd", budgetString,
             prompt
         ]
         process.standardOutput = outputPipe

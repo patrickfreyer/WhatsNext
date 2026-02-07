@@ -9,7 +9,6 @@ final class RecentChangesStrategy: ExplorationStrategy {
     let strategyDescription = "Find files that were recently modified or created"
 
     private let fileManager = FileManager.default
-    private let explorationEngine = ExplorationEngine.shared
 
     // Time thresholds
     private let veryRecentHours: TimeInterval = 24
@@ -27,7 +26,7 @@ final class RecentChangesStrategy: ExplorationStrategy {
         let now = Date()
 
         // Get files to check
-        let files = explorationEngine.enumerateFiles(
+        let files = ExplorationEngine.shared.enumerateFiles(
             at: path,
             maxDepth: config.maxDepth,
             filePatterns: config.filePatterns,

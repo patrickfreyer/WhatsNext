@@ -9,30 +9,25 @@ enum PromptBuilder {
     static func buildAnalysisPrompt(
         items: [SourceItem],
         explorations: [ExplorationResult],
-        systemPrompt: String
+        systemPrompt: String,
+        feedbackSection: String? = nil
     ) -> String {
         var prompt = """
         \(systemPrompt)
 
-        IMPORTANT: Respond ONLY with valid JSON in the following format:
-        {
-          "tasks": [
-            {
-              "title": "Task title",
-              "description": "Why this task is important",
-              "priority": "high|medium|low",
-              "estimatedMinutes": 30,
-              "reasoning": "Brief explanation of why this task was suggested",
-              "actionPlan": [
-                {"step": 1, "description": "First step", "command": null},
-                {"step": 2, "description": "Second step", "command": "optional claude command"}
-              ],
-              "suggestedCommand": "cd /path && claude 'task description'"
-            }
-          ]
-        }
+        You have read-only access to tools (Read, Glob, Grep, WebFetch, WebSearch).
+        BEFORE suggesting tasks, explore the user's environment to gather concrete details.
 
-        Here is the current state of the user's work:
+        EXPLORATION PHASE:
+        For each source below, investigate further to ground your suggestions in reality:
+        - Folders: Read specific files mentioned in TODOs/FIXMEs, check git log for recent work, look at uncommitted changes
+        - Mail: Search for emails from key senders mentioned below, check threads that reference deadlines or action items
+        - Reminders: Look up related files or emails for reminders that reference specific projects
+        - Websites: Fetch bookmarked URLs to check for updates or relevant content
+
+        Do NOT guess about file contents, email subjects, or project states — use your tools to verify.
+
+        Here is the initial scan of the user's work:
 
         """
 
@@ -66,9 +61,14 @@ enum PromptBuilder {
             }
         }
 
+        // Add historical feedback section
+        if let feedbackSection = feedbackSection {
+            prompt += "\n\(feedbackSection)\n\n"
+        }
+
         prompt += """
 
-        Based on this information, identify the most important and actionable tasks.
+        After exploring, suggest tasks based on what you found.
 
         CRITICAL RULES for task quality:
         - Tasks MUST be specific and concrete, NOT vague or generic.
@@ -78,7 +78,8 @@ enum PromptBuilder {
         - The description must explain exactly WHAT needs to happen and WHERE.
         - The suggestedCommand must be a real, runnable command with the correct working directory and a specific claude prompt describing the exact work.
         - Do NOT suggest tasks that cannot be executed by Claude Code (e.g., "clean your desk", "take a break").
-        - Only suggest tasks grounded in the source data provided above. Do not invent tasks.
+        - Only suggest tasks grounded in the source data you explored above. Do not invent tasks.
+        - For each task, set sourceType and sourceName to identify which source it came from.
 
         Consider:
         1. Time-sensitive items (due dates, meetings) — include the actual date/time
@@ -87,7 +88,7 @@ enum PromptBuilder {
         4. Quick wins that would reduce mental load — be specific about what and where
 
         Prioritize tasks that can be acted upon now with Claude Code.
-        Respond with JSON only.
+        The output format is enforced automatically by the schema — just return your tasks.
         """
 
         return prompt

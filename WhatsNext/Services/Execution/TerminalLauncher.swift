@@ -89,12 +89,25 @@ enum TerminalLauncher {
     }
 
     private static func executeAppleScript(_ script: String) {
-        var error: NSDictionary?
-        if let scriptObject = NSAppleScript(source: script) {
-            scriptObject.executeAndReturnError(&error)
-            if let error = error {
-                print("AppleScript error: \(error)")
+        debugLog("Executing AppleScript via osascript: \(script)")
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+        process.arguments = ["-e", script]
+
+        let errorPipe = Pipe()
+        process.standardError = errorPipe
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+
+            if process.terminationStatus != 0 {
+                let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+                let errorString = String(data: errorData, encoding: .utf8) ?? "unknown error"
+                debugLog("osascript error (exit \(process.terminationStatus)): \(errorString)")
             }
+        } catch {
+            debugLog("Failed to launch osascript: \(error.localizedDescription)")
         }
     }
 }

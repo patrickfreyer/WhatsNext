@@ -196,6 +196,8 @@ struct ClaudeTaskItem: Codable {
     var actionPlan: [ClaudeActionStep]?
     var suggestedCommand: String?
     var reasoning: String?
+    var sourceType: String?
+    var sourceName: String?
 
     func toSuggestedTask(
         sourceInfo: SourceInfo? = nil,
@@ -215,6 +217,19 @@ struct ClaudeTaskItem: Codable {
             fullResponse: fullResponse
         )
 
+        // Build SourceInfo from structured output fields, or use passed-in sourceInfo
+        let resolvedSourceInfo: SourceInfo?
+        if let sourceInfo = sourceInfo {
+            resolvedSourceInfo = sourceInfo
+        } else if let typeStr = sourceType, let type = SourceType(rawValue: typeStr) {
+            resolvedSourceInfo = SourceInfo(
+                sourceType: type,
+                sourceName: sourceName ?? "Unknown"
+            )
+        } else {
+            resolvedSourceInfo = nil
+        }
+
         return SuggestedTask(
             title: title,
             description: description,
@@ -224,7 +239,7 @@ struct ClaudeTaskItem: Codable {
                 ActionStep(stepNumber: index + 1, description: step.description, command: step.command)
             } ?? [],
             suggestedCommand: suggestedCommand,
-            sourceInfo: sourceInfo,
+            sourceInfo: resolvedSourceInfo,
             generationLog: log
         )
     }

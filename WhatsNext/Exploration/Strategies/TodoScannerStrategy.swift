@@ -9,7 +9,6 @@ final class TodoScannerStrategy: ExplorationStrategy {
     let strategyDescription = "Find TODO, FIXME, HACK, and NOTE comments in code"
 
     private let fileManager = FileManager.default
-    private let explorationEngine = ExplorationEngine.shared
 
     // Patterns to search for (case insensitive)
     private let patterns: [(pattern: String, type: FindingType, severity: FindingSeverity)] = [
@@ -35,7 +34,7 @@ final class TodoScannerStrategy: ExplorationStrategy {
         var findings: [ExplorationFinding] = []
 
         // Get files to scan
-        let files = explorationEngine.enumerateFiles(
+        let files = ExplorationEngine.shared.enumerateFiles(
             at: path,
             maxDepth: config.maxDepth,
             filePatterns: config.filePatterns,

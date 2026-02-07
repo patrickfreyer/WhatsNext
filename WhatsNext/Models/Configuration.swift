@@ -38,6 +38,25 @@ struct ClaudeConfiguration: Codable {
     var systemPrompt: String
     var modelName: String
     var maxTokens: Int
+    var maxBudgetUSD: Double
+    var explorationTools: [String]
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        systemPrompt = try container.decode(String.self, forKey: .systemPrompt)
+        modelName = try container.decode(String.self, forKey: .modelName)
+        maxTokens = try container.decode(Int.self, forKey: .maxTokens)
+        maxBudgetUSD = try container.decodeIfPresent(Double.self, forKey: .maxBudgetUSD) ?? 1.00
+        explorationTools = try container.decodeIfPresent([String].self, forKey: .explorationTools) ?? ["Read", "Glob", "Grep", "WebFetch", "WebSearch"]
+    }
+
+    init(systemPrompt: String, modelName: String, maxTokens: Int, maxBudgetUSD: Double = 1.00, explorationTools: [String] = ["Read", "Glob", "Grep", "WebFetch", "WebSearch"]) {
+        self.systemPrompt = systemPrompt
+        self.modelName = modelName
+        self.maxTokens = maxTokens
+        self.maxBudgetUSD = maxBudgetUSD
+        self.explorationTools = explorationTools
+    }
 
     static var `default`: ClaudeConfiguration {
         ClaudeConfiguration(
@@ -59,7 +78,9 @@ struct ClaudeConfiguration: Codable {
                 - Important but being procrastinated
                 """,
             modelName: "claude-sonnet-4-20250514",
-            maxTokens: 4096
+            maxTokens: 4096,
+            maxBudgetUSD: 1.00,
+            explorationTools: ["Read", "Glob", "Grep", "WebFetch", "WebSearch"]
         )
     }
 }
@@ -74,7 +95,19 @@ struct SourcesConfiguration: Codable {
 
     static var `default`: SourcesConfiguration {
         SourcesConfiguration(
-            folders: [],
+            folders: [
+                FolderSourceConfiguration(
+                    name: "Home",
+                    path: "~",
+                    exploration: FolderExplorationConfig(
+                        enabledStrategies: ["git-status", "todo-scanner", "recent-changes"],
+                        maxDepth: 2,
+                        filePatterns: ["*.swift", "*.md", "*.txt", "*.json", "*.py", "*.js", "*.ts"],
+                        excludePatterns: [".git", "node_modules", "build", ".build", "DerivedData", "Pods", "Library", ".Trash", "Applications"],
+                        maxFilesToAnalyze: 30
+                    )
+                )
+            ],
             websites: [],
             reminders: .default,
             mail: .default

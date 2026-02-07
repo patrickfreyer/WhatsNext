@@ -5,7 +5,100 @@ import Foundation
 /// Parses Claude CLI responses into structured data
 enum ResponseParser {
 
-    /// Parse tasks from Claude's JSON response
+    // MARK: - Primary Entry Point
+
+    /// Parse tasks from the raw CLI JSON output, trying structured_output first, then result field
+    static func parseTasksFromCLIResponse(
+        _ response: String,
+        modelUsed: String = "",
+        promptExcerpt: String = "",
+        sourceNames: [String] = [],
+        fullPrompt: String? = nil,
+        fullResponse: String? = nil
+    ) throws -> [SuggestedTask] {
+        guard let data = response.data(using: .utf8),
+              let cliJSON = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            // Not valid JSON at all — try legacy text parsing
+            return try parseTasksFromResponse(
+                response,
+                modelUsed: modelUsed,
+                promptExcerpt: promptExcerpt,
+                sourceNames: sourceNames,
+                fullPrompt: fullPrompt,
+                fullResponse: fullResponse
+            )
+        }
+
+        // Try structured_output first (populated by --json-schema)
+        if let structuredOutput = cliJSON["structured_output"] as? [String: Any] {
+            debugLog("[WhatsNext] Found structured_output field, parsing directly")
+            return try parseTasksFromStructuredOutput(
+                structuredOutput,
+                modelUsed: modelUsed,
+                promptExcerpt: promptExcerpt,
+                sourceNames: sourceNames,
+                fullPrompt: fullPrompt,
+                fullResponse: fullResponse
+            )
+        }
+
+        // Fall back to result field (legacy --print without --json-schema)
+        debugLog("[WhatsNext] No structured_output, falling back to result field")
+        return try parseTasksFromResponse(
+            response,
+            modelUsed: modelUsed,
+            promptExcerpt: promptExcerpt,
+            sourceNames: sourceNames,
+            fullPrompt: fullPrompt,
+            fullResponse: fullResponse
+        )
+    }
+
+    // MARK: - Structured Output Parsing
+
+    /// Parse tasks from already-valid JSON dict (from structured_output field)
+    static func parseTasksFromStructuredOutput(
+        _ output: [String: Any],
+        modelUsed: String = "",
+        promptExcerpt: String = "",
+        sourceNames: [String] = [],
+        fullPrompt: String? = nil,
+        fullResponse: String? = nil
+    ) throws -> [SuggestedTask] {
+        // Re-serialize to Data so JSONDecoder can handle it
+        let outputData = try JSONSerialization.data(withJSONObject: output)
+        do {
+            let taskResponse = try JSONDecoder().decode(ClaudeTaskResponse.self, from: outputData)
+            return taskResponse.tasks.map {
+                $0.toSuggestedTask(
+                    modelUsed: modelUsed,
+                    promptExcerpt: promptExcerpt,
+                    sourceNames: sourceNames,
+                    fullPrompt: fullPrompt,
+                    fullResponse: fullResponse
+                )
+            }
+        } catch {
+            // structured_output was present but couldn't decode — try lenient parsing
+            if let tasksArray = output["tasks"] as? [[String: Any]] {
+                return tasksArray.compactMap {
+                    parseTaskFromDictionary(
+                        $0,
+                        modelUsed: modelUsed,
+                        promptExcerpt: promptExcerpt,
+                        sourceNames: sourceNames,
+                        fullPrompt: fullPrompt,
+                        fullResponse: fullResponse
+                    )
+                }
+            }
+            throw ClaudeServiceError.parsingFailed("structured_output present but could not decode tasks: \(error)")
+        }
+    }
+
+    // MARK: - Legacy Parsing (fallback)
+
+    /// Parse tasks from Claude's JSON response (result field or raw text)
     static func parseTasksFromResponse(
         _ response: String,
         modelUsed: String = "",
@@ -51,6 +144,8 @@ enum ResponseParser {
             )
         }
     }
+
+    // MARK: - Private Helpers
 
     /// Extract the 'result' field from Claude CLI JSON wrapper response
     private static func extractResultFromCLIResponse(_ response: String) -> String {
@@ -103,7 +198,6 @@ enum ResponseParser {
         fullPrompt: String? = nil,
         fullResponse: String? = nil
     ) throws -> [SuggestedTask] {
-        // Try to parse as array of tasks directly
         guard let data = jsonString.data(using: .utf8) else {
             throw ClaudeServiceError.parsingFailed("Could not convert to data")
         }
@@ -170,6 +264,15 @@ enum ResponseParser {
 
         let suggestedCommand = dict["suggestedCommand"] as? String
 
+        // Build SourceInfo from structured output fields
+        var resolvedSourceInfo: SourceInfo?
+        if let typeStr = dict["sourceType"] as? String, let type = SourceType(rawValue: typeStr) {
+            resolvedSourceInfo = SourceInfo(
+                sourceType: type,
+                sourceName: (dict["sourceName"] as? String) ?? "Unknown"
+            )
+        }
+
         let log = GenerationLog(
             generatedAt: Date(),
             sourceNames: sourceNames,
@@ -187,6 +290,7 @@ enum ResponseParser {
             estimatedMinutes: estimatedMinutes,
             actionPlan: actionPlan,
             suggestedCommand: suggestedCommand,
+            sourceInfo: resolvedSourceInfo,
             generationLog: log
         )
     }

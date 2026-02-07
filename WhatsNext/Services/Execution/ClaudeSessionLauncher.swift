@@ -3,7 +3,7 @@ import Foundation
 
 // MARK: - Claude Session Launcher
 
-/// Launches Claude Code sessions for task execution
+/// Launches Claude Code sessions for task execution via iTerm2
 final class ClaudeSessionLauncher {
     static let shared = ClaudeSessionLauncher()
 
@@ -11,7 +11,7 @@ final class ClaudeSessionLauncher {
 
     // MARK: - Public Methods
 
-    /// Execute a suggested task by launching Claude in Terminal
+    /// Execute a suggested task by launching Claude in iTerm2
     func executeTask(_ task: SuggestedTask) {
         let prompt = PromptBuilder.buildExecutionPrompt(task: task)
 
@@ -25,7 +25,7 @@ final class ClaudeSessionLauncher {
 
         // Use the suggested command if available, otherwise build one
         if let suggestedCommand = task.suggestedCommand, !suggestedCommand.isEmpty {
-            TerminalLauncher.launch(command: suggestedCommand)
+            TerminalLauncher.launch(command: suggestedCommand, workingDirectory: workingDirectory)
         } else {
             TerminalLauncher.launchClaude(prompt: prompt, workingDirectory: workingDirectory)
         }
