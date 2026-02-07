@@ -47,10 +47,10 @@ struct ClaudeConfiguration: Codable {
         modelName = try container.decode(String.self, forKey: .modelName)
         maxTokens = try container.decode(Int.self, forKey: .maxTokens)
         maxBudgetUSD = try container.decodeIfPresent(Double.self, forKey: .maxBudgetUSD) ?? 1.00
-        explorationTools = try container.decodeIfPresent([String].self, forKey: .explorationTools) ?? ["Read", "Glob", "Grep", "WebFetch", "WebSearch"]
+        explorationTools = try container.decodeIfPresent([String].self, forKey: .explorationTools) ?? ["Read", "Glob", "Grep", "WebFetch", "WebSearch", "mcp__apple-mail__search_emails", "mcp__apple-mail__get_email_with_content", "mcp__apple-mail__search_by_sender", "mcp__apple-mail__search_email_content", "mcp__apple-mail__get_email_thread", "mcp__apple-mail__get_recent_from_sender", "mcp__apple-mail__list_inbox_emails", "mcp__apple-mail__get_unread_count"]
     }
 
-    init(systemPrompt: String, modelName: String, maxTokens: Int, maxBudgetUSD: Double = 1.00, explorationTools: [String] = ["Read", "Glob", "Grep", "WebFetch", "WebSearch"]) {
+    init(systemPrompt: String, modelName: String, maxTokens: Int, maxBudgetUSD: Double = 1.00, explorationTools: [String] = ["Read", "Glob", "Grep", "WebFetch", "WebSearch", "mcp__apple-mail__search_emails", "mcp__apple-mail__get_email_with_content", "mcp__apple-mail__search_by_sender", "mcp__apple-mail__search_email_content", "mcp__apple-mail__get_email_thread", "mcp__apple-mail__get_recent_from_sender", "mcp__apple-mail__list_inbox_emails", "mcp__apple-mail__get_unread_count"]) {
         self.systemPrompt = systemPrompt
         self.modelName = modelName
         self.maxTokens = maxTokens
@@ -80,7 +80,7 @@ struct ClaudeConfiguration: Codable {
             modelName: "claude-sonnet-4-20250514",
             maxTokens: 4096,
             maxBudgetUSD: 1.00,
-            explorationTools: ["Read", "Glob", "Grep", "WebFetch", "WebSearch"]
+            explorationTools: ["Read", "Glob", "Grep", "WebFetch", "WebSearch", "mcp__apple-mail__search_emails", "mcp__apple-mail__get_email_with_content", "mcp__apple-mail__search_by_sender", "mcp__apple-mail__search_email_content", "mcp__apple-mail__get_email_thread", "mcp__apple-mail__get_recent_from_sender", "mcp__apple-mail__list_inbox_emails", "mcp__apple-mail__get_unread_count"]
         )
     }
 }
