@@ -66,6 +66,14 @@ struct SourceItemMetadata {
     var gitStatus: String?
     var uncommittedFiles: [String]?
 
+    // Calendar-specific
+    var startDate: Date?
+    var endDate: Date?
+    var eventLocation: String?
+    var isAllDay: Bool?
+    var attendees: [String]?
+    var calendarName: String?
+
     init(
         url: URL? = nil,
         date: Date? = nil,
@@ -86,7 +94,13 @@ struct SourceItemMetadata {
         lastUpdated: Date? = nil,
         gitBranch: String? = nil,
         gitStatus: String? = nil,
-        uncommittedFiles: [String]? = nil
+        uncommittedFiles: [String]? = nil,
+        startDate: Date? = nil,
+        endDate: Date? = nil,
+        eventLocation: String? = nil,
+        isAllDay: Bool? = nil,
+        attendees: [String]? = nil,
+        calendarName: String? = nil
     ) {
         self.url = url
         self.date = date
@@ -108,6 +122,12 @@ struct SourceItemMetadata {
         self.gitBranch = gitBranch
         self.gitStatus = gitStatus
         self.uncommittedFiles = uncommittedFiles
+        self.startDate = startDate
+        self.endDate = endDate
+        self.eventLocation = eventLocation
+        self.isAllDay = isAllDay
+        self.attendees = attendees
+        self.calendarName = calendarName
     }
 }
 
@@ -167,6 +187,33 @@ extension SourceItem {
         case .website:
             if let url = metadata.url {
                 parts.append("URL: \(url.absoluteString)")
+            }
+
+        case .calendar:
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .short
+            if let isAllDay = metadata.isAllDay, isAllDay {
+                let dayFormatter = DateFormatter()
+                dayFormatter.dateStyle = .medium
+                dayFormatter.timeStyle = .none
+                if let startDate = metadata.startDate {
+                    parts.append("All-day: \(dayFormatter.string(from: startDate))")
+                }
+            } else if let startDate = metadata.startDate {
+                parts.append("Start: \(formatter.string(from: startDate))")
+                if let endDate = metadata.endDate {
+                    parts.append("End: \(formatter.string(from: endDate))")
+                }
+            }
+            if let location = metadata.eventLocation, !location.isEmpty {
+                parts.append("Location: \(location)")
+            }
+            if let attendees = metadata.attendees, !attendees.isEmpty {
+                parts.append("Attendees: \(attendees.joined(separator: ", "))")
+            }
+            if let calendarName = metadata.calendarName {
+                parts.append("Calendar: \(calendarName)")
             }
         }
 

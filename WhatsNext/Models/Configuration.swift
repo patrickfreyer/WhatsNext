@@ -92,6 +92,30 @@ struct SourcesConfiguration: Codable {
     var websites: [WebsiteSourceConfiguration]
     var reminders: RemindersSourceConfiguration
     var mail: MailSourceConfiguration
+    var calendar: CalendarSourceConfiguration
+
+    init(
+        folders: [FolderSourceConfiguration],
+        websites: [WebsiteSourceConfiguration],
+        reminders: RemindersSourceConfiguration,
+        mail: MailSourceConfiguration,
+        calendar: CalendarSourceConfiguration = .default
+    ) {
+        self.folders = folders
+        self.websites = websites
+        self.reminders = reminders
+        self.mail = mail
+        self.calendar = calendar
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        folders = try container.decode([FolderSourceConfiguration].self, forKey: .folders)
+        websites = try container.decode([WebsiteSourceConfiguration].self, forKey: .websites)
+        reminders = try container.decode(RemindersSourceConfiguration.self, forKey: .reminders)
+        mail = try container.decode(MailSourceConfiguration.self, forKey: .mail)
+        calendar = try container.decodeIfPresent(CalendarSourceConfiguration.self, forKey: .calendar) ?? .default
+    }
 
     static var `default`: SourcesConfiguration {
         SourcesConfiguration(
@@ -110,7 +134,8 @@ struct SourcesConfiguration: Codable {
             ],
             websites: [],
             reminders: .default,
-            mail: .default
+            mail: .default,
+            calendar: .default
         )
     }
 }
@@ -201,6 +226,24 @@ struct MailSourceConfiguration: Codable {
             maxEmailsToFetch: 20,
             onlyUnread: true,
             onlyFlagged: false
+        )
+    }
+}
+
+// MARK: - Calendar Source Configuration
+
+struct CalendarSourceConfiguration: Codable {
+    var isEnabled: Bool
+    var calendarNames: [String]?
+    var daysAhead: Int
+    var daysBehind: Int
+
+    static var `default`: CalendarSourceConfiguration {
+        CalendarSourceConfiguration(
+            isEnabled: true,
+            calendarNames: nil,
+            daysAhead: 7,
+            daysBehind: 1
         )
     }
 }

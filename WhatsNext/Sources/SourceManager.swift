@@ -18,6 +18,7 @@ final class SourceManager: ObservableObject {
     private var websiteProviders: [WebsiteSourceProvider] = []
     private var remindersProvider: RemindersSourceProvider?
     private var mailProvider: MailSourceProvider?
+    private var calendarProvider: CalendarSourceProvider?
 
     private init() {
         refreshProviders()
@@ -51,6 +52,13 @@ final class SourceManager: ObservableObject {
             mailProvider = MailSourceProvider(configuration: config.mail)
         } else {
             mailProvider = nil
+        }
+
+        // Calendar provider
+        if config.calendar.isEnabled {
+            calendarProvider = CalendarSourceProvider(configuration: config.calendar)
+        } else {
+            calendarProvider = nil
         }
     }
 
@@ -86,6 +94,13 @@ final class SourceManager: ObservableObject {
 
         // Fetch from mail
         if let provider = mailProvider {
+            let result = await fetchFromProvider(provider)
+            results.append(result)
+            allItems.append(contentsOf: result.items)
+        }
+
+        // Fetch from calendar
+        if let provider = calendarProvider {
             let result = await fetchFromProvider(provider)
             results.append(result)
             allItems.append(contentsOf: result.items)
@@ -129,6 +144,12 @@ final class SourceManager: ObservableObject {
                 return await fetchFromProvider(provider)
             }
             return SourceFetchResult(sourceType: .mail, sourceName: "Mail", error: SourceProviderError.notAvailable("Mail not enabled"))
+
+        case .calendar:
+            if let provider = calendarProvider {
+                return await fetchFromProvider(provider)
+            }
+            return SourceFetchResult(sourceType: .calendar, sourceName: "Calendar", error: SourceProviderError.notAvailable("Calendar not enabled"))
         }
     }
 
@@ -158,6 +179,13 @@ final class SourceManager: ObservableObject {
             permissions[.mail] = true
         }
 
+        // Check calendar
+        if let provider = calendarProvider {
+            permissions[.calendar] = await provider.checkPermissions()
+        } else {
+            permissions[.calendar] = true
+        }
+
         return permissions
     }
 
@@ -168,6 +196,8 @@ final class SourceManager: ObservableObject {
             try await remindersProvider?.requestPermissions()
         case .mail:
             try await mailProvider?.requestPermissions()
+        case .calendar:
+            try await calendarProvider?.requestPermissions()
         default:
             break
         }

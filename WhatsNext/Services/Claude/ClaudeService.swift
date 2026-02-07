@@ -10,7 +10,7 @@ final class ClaudeService {
 
     /// JSON schema for structured task output, enforced by --json-schema
     static let taskResponseSchema: String = """
-    {"type":"object","properties":{"tasks":{"type":"array","items":{"type":"object","properties":{"title":{"type":"string"},"description":{"type":"string"},"priority":{"type":"string","enum":["high","medium","low"]},"estimatedMinutes":{"type":"integer"},"reasoning":{"type":"string"},"actionPlan":{"type":"array","items":{"type":"object","properties":{"step":{"type":"integer"},"description":{"type":"string"},"command":{"type":["string","null"]}},"required":["step","description"]}},"suggestedCommand":{"type":["string","null"]},"sourceType":{"type":"string","enum":["folder","website","reminders","mail"]},"sourceName":{"type":"string"}},"required":["title","description","priority","reasoning","actionPlan"]}}},"required":["tasks"]}
+    {"type":"object","properties":{"tasks":{"type":"array","items":{"type":"object","properties":{"title":{"type":"string"},"description":{"type":"string"},"priority":{"type":"string","enum":["high","medium","low"]},"estimatedMinutes":{"type":"integer"},"reasoning":{"type":"string"},"actionPlan":{"type":"array","items":{"type":"object","properties":{"step":{"type":"integer"},"description":{"type":"string"},"command":{"type":["string","null"]}},"required":["step","description"]}},"suggestedCommand":{"type":["string","null"]},"sourceType":{"type":"string","enum":["folder","website","reminders","mail","calendar"]},"sourceName":{"type":"string"}},"required":["title","description","priority","reasoning","actionPlan"]}}},"required":["tasks"]}
     """
 
     private init() {}

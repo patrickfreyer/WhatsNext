@@ -25,6 +25,11 @@ struct SourceSettingsView: View {
 
                 // Mail Section
                 mailSection
+
+                Divider()
+
+                // Calendar Section
+                calendarSection
             }
             .padding()
         }
@@ -194,6 +199,41 @@ struct SourceSettingsView: View {
                 .padding(.leading, 20)
 
                 Text("Mailboxes: \(viewModel.sources.mail.mailboxNames.joined(separator: ", "))")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+            }
+
+            Button("Save Changes") {
+                viewModel.saveSources()
+            }
+        }
+    }
+    // MARK: - Calendar Section
+
+    private var calendarSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Calendar", systemImage: "calendar")
+                .font(.headline)
+
+            Toggle("Enable Calendar", isOn: $viewModel.sources.calendar.isEnabled)
+
+            if viewModel.sources.calendar.isEnabled {
+                Stepper(
+                    "Look ahead: \(viewModel.sources.calendar.daysAhead) days",
+                    value: $viewModel.sources.calendar.daysAhead,
+                    in: 1...30
+                )
+                .padding(.leading, 20)
+
+                Stepper(
+                    "Look behind: \(viewModel.sources.calendar.daysBehind) days",
+                    value: $viewModel.sources.calendar.daysBehind,
+                    in: 0...7
+                )
+                .padding(.leading, 20)
+
+                Text("Calendars: All calendars (or specify in config.json)")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)

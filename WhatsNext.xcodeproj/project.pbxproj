@@ -24,6 +24,7 @@
 		A1000015 /* WebsiteSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000015; };
 		A1000016 /* RemindersSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000016; };
 		A1000017 /* MailSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000017; };
+		A1000039 /* CalendarSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000040; };
 		A1000018 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000018; };
 		A1000019 /* PromptBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000019; };
 		A1000020 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000020; };
@@ -78,6 +79,7 @@
 		B1000015 /* WebsiteSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteSourceProvider.swift; sourceTree = "<group>"; };
 		B1000016 /* RemindersSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSourceProvider.swift; sourceTree = "<group>"; };
 		B1000017 /* MailSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailSourceProvider.swift; sourceTree = "<group>"; };
+		B1000040 /* CalendarSourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSourceProvider.swift; sourceTree = "<group>"; };
 		B1000018 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		B1000019 /* PromptBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptBuilder.swift; sourceTree = "<group>"; };
 		B1000020 /* ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				B1000015 /* WebsiteSourceProvider.swift */,
 				B1000016 /* RemindersSourceProvider.swift */,
 				B1000017 /* MailSourceProvider.swift */,
+				B1000040 /* CalendarSourceProvider.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				A1000015 /* WebsiteSourceProvider.swift in Sources */,
 				A1000016 /* RemindersSourceProvider.swift in Sources */,
 				A1000017 /* MailSourceProvider.swift in Sources */,
+				A1000039 /* CalendarSourceProvider.swift in Sources */,
 				A1000018 /* ClaudeService.swift in Sources */,
 				A1000019 /* PromptBuilder.swift in Sources */,
 				A1000020 /* ResponseParser.swift in Sources */,

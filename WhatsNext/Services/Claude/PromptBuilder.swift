@@ -23,6 +23,7 @@ enum PromptBuilder {
         - Folders: Read specific files mentioned in TODOs/FIXMEs, check git log for recent work, look at uncommitted changes
         - Mail: Search for emails from key senders, check threads that reference deadlines or action items
         - Reminders: Look up related files or emails for reminders that reference specific projects
+        - Calendar: Check upcoming events for preparation needs, meetings that need agendas or follow-ups
         - Websites: Fetch bookmarked URLs to check for updates or relevant content
 
         CROSS-REFERENCE BETWEEN SOURCES — be proactive:
@@ -31,6 +32,7 @@ enum PromptBuilder {
         - When a TODO references a project name → check that project's folder for git status, recent changes, and open issues
         - When an email references a file or project → read that file or check the project folder for context
         - When you see a meeting or deadline → search emails for preparation context, agendas, or related threads (use mcp__apple-mail__get_email_thread)
+        - When you see an upcoming calendar event → search emails for agendas, prep materials, and recent threads from attendees
         - When a reminder is vague (e.g., "follow up on X") → search emails and files to determine what X actually refers to and what the current state is
 
         Do NOT guess about file contents, email subjects, or project states — use your tools to verify.

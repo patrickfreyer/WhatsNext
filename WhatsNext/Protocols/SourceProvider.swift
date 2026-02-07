@@ -84,4 +84,8 @@ enum SourceProviderFactory {
     static func createMailProvider(config: MailSourceConfiguration) -> MailSourceProvider {
         MailSourceProvider(configuration: config)
     }
+
+    static func createCalendarProvider(config: CalendarSourceConfiguration) -> CalendarSourceProvider {
+        CalendarSourceProvider(configuration: config)
+    }
 }

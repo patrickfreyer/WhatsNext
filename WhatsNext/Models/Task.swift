@@ -162,6 +162,7 @@ enum SourceType: String, Codable, CaseIterable {
     case website
     case reminders
     case mail
+    case calendar
 
     var displayName: String {
         switch self {
@@ -169,6 +170,7 @@ enum SourceType: String, Codable, CaseIterable {
         case .website: return "Website"
         case .reminders: return "Reminders"
         case .mail: return "Mail"
+        case .calendar: return "Calendar"
         }
     }
 
@@ -178,6 +180,7 @@ enum SourceType: String, Codable, CaseIterable {
         case .website: return "globe"
         case .reminders: return "checklist"
         case .mail: return "envelope"
+        case .calendar: return "calendar"
         }
     }
 }
