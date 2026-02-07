@@ -54,7 +54,7 @@ final class ClaudeService {
         debugLog("[WhatsNext] Response preview: \(String(response.prefix(500)))")
 
         let promptExcerpt = String(prompt.prefix(200))
-        let sourceNames = items.map { $0.sourceName }
+        let sourceNames = Array(Set(items.map { $0.sourceName })).sorted()
 
         // Try structured_output first (from --json-schema), fall back to result field
         let tasks = try ResponseParser.parseTasksFromCLIResponse(
