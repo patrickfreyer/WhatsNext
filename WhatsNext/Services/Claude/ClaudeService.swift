@@ -52,7 +52,9 @@ final class ClaudeService {
             response,
             modelUsed: config.modelName,
             promptExcerpt: promptExcerpt,
-            sourceNames: sourceNames
+            sourceNames: sourceNames,
+            fullPrompt: prompt,
+            fullResponse: response
         )
         debugLog("[WhatsNext] Parsed \(tasks.count) tasks")
 
