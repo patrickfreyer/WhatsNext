@@ -21,9 +21,12 @@ final class RemindersSourceProvider: SourceProvider {
     // MARK: - SourceProvider
 
     func fetchItems() async throws -> [SourceItem] {
-        // Check authorization
+        // Request permissions if not yet determined, then check
+        if !await checkPermissions() {
+            try await requestPermissions()
+        }
         guard await checkPermissions() else {
-            throw SourceProviderError.permissionDenied("Reminders access not granted")
+            throw SourceProviderError.permissionDenied("Reminders access not granted. Please enable in System Settings > Privacy & Security > Reminders.")
         }
 
         var items: [SourceItem] = []
