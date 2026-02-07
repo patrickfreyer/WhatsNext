@@ -34,7 +34,9 @@ enum ResponseParser {
                 $0.toSuggestedTask(
                     modelUsed: modelUsed,
                     promptExcerpt: promptExcerpt,
-                    sourceNames: sourceNames
+                    sourceNames: sourceNames,
+                    fullPrompt: fullPrompt,
+                    fullResponse: fullResponse
                 )
             }
         } catch {
@@ -43,7 +45,9 @@ enum ResponseParser {
                 from: jsonString,
                 modelUsed: modelUsed,
                 promptExcerpt: promptExcerpt,
-                sourceNames: sourceNames
+                sourceNames: sourceNames,
+                fullPrompt: fullPrompt,
+                fullResponse: fullResponse
             )
         }
     }
