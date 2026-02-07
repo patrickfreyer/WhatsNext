@@ -114,7 +114,9 @@ enum ResponseParser {
                 $0.toSuggestedTask(
                     modelUsed: modelUsed,
                     promptExcerpt: promptExcerpt,
-                    sourceNames: sourceNames
+                    sourceNames: sourceNames,
+                    fullPrompt: fullPrompt,
+                    fullResponse: fullResponse
                 )
             }
         }
@@ -127,7 +129,9 @@ enum ResponseParser {
                     $0,
                     modelUsed: modelUsed,
                     promptExcerpt: promptExcerpt,
-                    sourceNames: sourceNames
+                    sourceNames: sourceNames,
+                    fullPrompt: fullPrompt,
+                    fullResponse: fullResponse
                 )
             }
         }
