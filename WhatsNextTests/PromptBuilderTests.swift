@@ -23,11 +23,8 @@ final class PromptBuilderTests: XCTestCase {
             systemPrompt: "Test"
         )
 
-        XCTAssertTrue(prompt.contains("Respond with JSON containing tasks"))
-        XCTAssertTrue(prompt.contains("\"tasks\""))
-        XCTAssertTrue(prompt.contains("\"title\""))
-        XCTAssertTrue(prompt.contains("\"priority\""))
-        XCTAssertTrue(prompt.contains("\"actionPlan\""))
+        XCTAssertTrue(prompt.contains("output format is enforced automatically by the schema"))
+        XCTAssertTrue(prompt.contains("suggest tasks based on what you found"))
     }
 
     func testBuildAnalysisPromptIncludesSourceItems() {
