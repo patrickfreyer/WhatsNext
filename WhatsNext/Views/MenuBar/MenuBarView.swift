@@ -13,9 +13,9 @@ struct MenuBarView: View {
             Divider()
 
             // Task List or Empty State
-            if viewModel.isRefreshing && viewModel.tasks.isEmpty {
+            if viewModel.isRefreshing && viewModel.displayedTasks.isEmpty {
                 loadingView
-            } else if viewModel.tasks.isEmpty {
+            } else if viewModel.displayedTasks.isEmpty {
                 emptyStateView
             } else {
                 TaskListView(
