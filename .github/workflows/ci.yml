@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: macos-14
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Select Xcode
+      run: |
+        # Use the latest available Xcode on the runner
+        sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer \
+          || sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
+    - name: Show Xcode version
+      run: xcodebuild -version
+
+    - name: Build
+      run: |
+        # Clear extended attributes that GitHub checkout may add
+        xattr -cr . 2>/dev/null || true
+        xcodebuild \
+          -scheme WhatsNext \
+          -configuration Debug \
+          -derivedDataPath build \
+          build
+
+    # Tests will run once the WhatsNextTests target is added to the project.
+    # Until then, the test step verifies that the scheme supports testing.
+    - name: Run Tests
+      run: |
+        xattr -cr build/ 2>/dev/null || true
+        xcodebuild \
+          -scheme WhatsNext \
+          -configuration Debug \
+          -derivedDataPath build \
+          -destination 'platform=macOS' \
+          test
