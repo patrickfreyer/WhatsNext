@@ -215,6 +215,18 @@ struct TaskRowView: View {
                                     .foregroundColor(.secondary)
                                     .lineLimit(3)
                             }
+
+                            if log.fullPrompt != nil || log.fullResponse != nil {
+                                Button(action: { openChatLog(log) }) {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "doc.text.magnifyingglass")
+                                        Text("View Full Chat Log")
+                                    }
+                                    .font(.caption2)
+                                }
+                                .buttonStyle(.bordered)
+                                .padding(.top, 4)
+                            }
                         }
                     }
                     .font(.caption2)
