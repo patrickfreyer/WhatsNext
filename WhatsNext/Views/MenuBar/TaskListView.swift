@@ -6,6 +6,7 @@ struct TaskListView: View {
     let tasks: [SuggestedTask]
     let onExecute: (SuggestedTask) -> Void
     let onDismiss: (SuggestedTask) -> Void
+    let onComplete: (SuggestedTask) -> Void
 
     var body: some View {
         ScrollView {
@@ -14,14 +15,15 @@ struct TaskListView: View {
                     TaskRowView(
                         task: task,
                         onExecute: { onExecute(task) },
-                        onDismiss: { onDismiss(task) }
+                        onDismiss: { onDismiss(task) },
+                        onComplete: { onComplete(task) }
                     )
                 }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
         }
-        .frame(maxHeight: 400)
+        .frame(maxHeight: 600)
     }
 }
 
@@ -50,7 +52,8 @@ struct TaskListView: View {
             )
         ],
         onExecute: { _ in },
-        onDismiss: { _ in }
+        onDismiss: { _ in },
+        onComplete: { _ in }
     )
     .frame(width: 350)
 }
