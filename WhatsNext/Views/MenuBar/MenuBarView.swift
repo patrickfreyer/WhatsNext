@@ -103,18 +103,6 @@ struct MenuBarView: View {
         .padding(.vertical, 30)
     }
 
-    private var moreTasksView: some View {
-        HStack {
-            Spacer()
-            Text("\(viewModel.tasks.count - viewModel.maxTasksToShow) more tasks")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            Spacer()
-        }
-        .padding(.vertical, 8)
-        .background(Color.secondary.opacity(0.1))
-    }
-
     private var footerView: some View {
         HStack {
             if let date = viewModel.lastRefreshDate {
