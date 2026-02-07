@@ -310,6 +310,18 @@ final class TaskStore: ObservableObject {
 
     // MARK: - Private Methods
 
+    /// Remove completed/dismissed tasks older than retention period
+    private func pruneOldTasks() {
+        let cutoff = Calendar.current.date(byAdding: .day, value: -taskRetentionDays, to: Date()) ?? Date()
+        let before = tasks.count
+        tasks.removeAll { task in
+            (task.status == .completed || task.status == .dismissed) && task.updatedAt < cutoff
+        }
+        if tasks.count != before {
+            save()
+        }
+    }
+
     private func save() {
         let container = TaskContainer(tasks: tasks, lastRefreshed: lastRefreshed)
         do {
