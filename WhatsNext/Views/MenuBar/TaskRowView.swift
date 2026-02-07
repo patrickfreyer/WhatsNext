@@ -72,6 +72,38 @@ struct TaskRowView: View {
         }
     }
 
+    // MARK: - Actions
+
+    private func openChatLog(_ log: GenerationLog) {
+        let dateFormatter = ISO8601DateFormatter()
+        var content = "# Generation Log for: \(task.title)\n"
+        content += "Generated: \(dateFormatter.string(from: log.generatedAt))\n"
+        content += "Model: \(log.modelUsed)\n"
+        content += "Sources: \(log.sourceNames.joined(separator: ", "))\n"
+        content += "Reasoning: \(log.reasoning)\n"
+        content += "\n" + String(repeating: "=", count: 80) + "\n"
+        content += "## PROMPT\n"
+        content += String(repeating: "=", count: 80) + "\n\n"
+        content += log.fullPrompt ?? "(not available)"
+        content += "\n\n" + String(repeating: "=", count: 80) + "\n"
+        content += "## RESPONSE\n"
+        content += String(repeating: "=", count: 80) + "\n\n"
+        content += log.fullResponse ?? "(not available)"
+
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("WhatsNext/logs")
+        try? FileManager.default.createDirectory(at: appSupport, withIntermediateDirectories: true)
+
+        let sanitizedTitle = task.title.prefix(40)
+            .replacingOccurrences(of: "/", with: "-")
+            .replacingOccurrences(of: ":", with: "-")
+        let fileName = "chatlog-\(sanitizedTitle).md"
+        let fileURL = appSupport.appendingPathComponent(fileName)
+
+        try? content.write(to: fileURL, atomically: true, encoding: .utf8)
+        NSWorkspace.shared.open(fileURL)
+    }
+
     // MARK: - Subviews
 
     private var priorityIndicator: some View {
