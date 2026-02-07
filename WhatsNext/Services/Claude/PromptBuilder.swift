@@ -15,15 +15,23 @@ enum PromptBuilder {
         var prompt = """
         \(systemPrompt)
 
-        You have read-only access to tools (Read, Glob, Grep, WebFetch, WebSearch).
+        You have read-only access to tools: file tools (Read, Glob, Grep), web tools (WebFetch, WebSearch), and Apple Mail tools (mcp__apple-mail__*).
         BEFORE suggesting tasks, explore the user's environment to gather concrete details.
 
         EXPLORATION PHASE:
         For each source below, investigate further to ground your suggestions in reality:
         - Folders: Read specific files mentioned in TODOs/FIXMEs, check git log for recent work, look at uncommitted changes
-        - Mail: Search for emails from key senders mentioned below, check threads that reference deadlines or action items
+        - Mail: Search for emails from key senders, check threads that reference deadlines or action items
         - Reminders: Look up related files or emails for reminders that reference specific projects
         - Websites: Fetch bookmarked URLs to check for updates or relevant content
+
+        CROSS-REFERENCE BETWEEN SOURCES — be proactive:
+        - When a reminder or TODO mentions a person → search emails for recent threads with that person (use mcp__apple-mail__search_by_sender or mcp__apple-mail__search_emails)
+        - When a reminder says to email/contact someone → look up their email address in past correspondence, and if not found, use WebSearch to find their contact details
+        - When a TODO references a project name → check that project's folder for git status, recent changes, and open issues
+        - When an email references a file or project → read that file or check the project folder for context
+        - When you see a meeting or deadline → search emails for preparation context, agendas, or related threads (use mcp__apple-mail__get_email_thread)
+        - When a reminder is vague (e.g., "follow up on X") → search emails and files to determine what X actually refers to and what the current state is
 
         Do NOT guess about file contents, email subjects, or project states — use your tools to verify.
 
