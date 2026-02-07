@@ -41,7 +41,24 @@
 		A1000032 /* PromptSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000032; };
 		A1000033 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1000033; };
 		A1000035 /* DebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000035; };
+		A1000036 /* FeedbackRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000036; };
+		A1000037 /* TaskFeedbackStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000037; };
+		A1000038 /* FeedbackSummarizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000038; };
+		T2000001 /* ResponseParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T1000001; };
+		T2000002 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T1000002; };
+		T2000003 /* PromptBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T1000003; };
+		T2000004 /* ExplorationEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T1000004; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		T7000002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1000004 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F1000001;
+			remoteInfo = WhatsNext;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		B1000001 /* WhatsNextApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNextApp.swift; sourceTree = "<group>"; };
@@ -78,12 +95,28 @@
 		B1000032 /* PromptSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptSettingsView.swift; sourceTree = "<group>"; };
 		B1000033 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1000034 /* WhatsNext.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatsNext.entitlements; sourceTree = "<group>"; };
+		B1000039 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1000035 /* DebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogger.swift; sourceTree = "<group>"; };
+		B1000036 /* FeedbackRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackRecord.swift; sourceTree = "<group>"; };
+		B1000037 /* TaskFeedbackStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskFeedbackStore.swift; sourceTree = "<group>"; };
+		B1000038 /* FeedbackSummarizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackSummarizer.swift; sourceTree = "<group>"; };
 		C1000001 /* WhatsNext.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsNext.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		T1000001 /* ResponseParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParserTests.swift; sourceTree = "<group>"; };
+		T1000002 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		T1000003 /* PromptBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptBuilderTests.swift; sourceTree = "<group>"; };
+		T1000004 /* ExplorationEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationEngineTests.swift; sourceTree = "<group>"; };
+		T3000001 /* WhatsNextTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhatsNextTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		D1000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		T6000002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -97,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				E1000002 /* WhatsNext */,
+				T4000001 /* WhatsNextTests */,
 				E1000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -121,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				C1000001 /* WhatsNext.app */,
+				T3000001 /* WhatsNextTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,6 +175,7 @@
 				B1000003 /* Task.swift */,
 				B1000004 /* SourceItem.swift */,
 				B1000005 /* ExplorationResult.swift */,
+				B1000036 /* FeedbackRecord.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -210,6 +246,7 @@
 				B1000018 /* ClaudeService.swift */,
 				B1000019 /* PromptBuilder.swift */,
 				B1000020 /* ResponseParser.swift */,
+				B1000038 /* FeedbackSummarizer.swift */,
 			);
 			path = Claude;
 			sourceTree = "<group>";
@@ -227,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				B1000023 /* ConfigurationStore.swift */,
+				B1000037 /* TaskFeedbackStore.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -287,6 +325,17 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		T4000001 /* WhatsNextTests */ = {
+			isa = PBXGroup;
+			children = (
+				T1000004 /* ExplorationEngineTests.swift */,
+				T1000002 /* ModelTests.swift */,
+				T1000003 /* PromptBuilderTests.swift */,
+				T1000001 /* ResponseParserTests.swift */,
+			);
+			path = WhatsNextTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -307,6 +356,24 @@
 			productReference = C1000001 /* WhatsNext.app */;
 			productType = "com.apple.product-type.application";
 		};
+		T5000001 /* WhatsNextTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = T8000001 /* Build configuration list for PBXNativeTarget "WhatsNextTests" */;
+			buildPhases = (
+				T6000001 /* Sources */,
+				T6000002 /* Frameworks */,
+				T6000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				T7000001 /* PBXTargetDependency */,
+			);
+			name = WhatsNextTests;
+			productName = WhatsNextTests;
+			productReference = T3000001 /* WhatsNextTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -319,6 +386,10 @@
 				TargetAttributes = {
 					F1000001 = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					T5000001 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = F1000001;
 					};
 				};
 			};
@@ -336,6 +407,7 @@
 			projectRoot = "";
 			targets = (
 				F1000001 /* WhatsNext */,
+				T5000001 /* WhatsNextTests */,
 			);
 		};
 /* End PBXProject section */
@@ -346,6 +418,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1000033 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		T6000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,10 +468,32 @@
 				A1000031 /* ExplorationSettingsView.swift in Sources */,
 				A1000032 /* PromptSettingsView.swift in Sources */,
 				A1000035 /* DebugLogger.swift in Sources */,
+				A1000036 /* FeedbackRecord.swift in Sources */,
+				A1000037 /* TaskFeedbackStore.swift in Sources */,
+				A1000038 /* FeedbackSummarizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		T6000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				T2000004 /* ExplorationEngineTests.swift in Sources */, 
+				T2000002 /* ModelTests.swift in Sources */, 
+				T2000003 /* PromptBuilderTests.swift in Sources */, 
+				T2000001 /* ResponseParserTests.swift in Sources */
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		T7000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F1000001 /* WhatsNext */;
+			targetProxy = T7000002 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F2000002 /* Debug */ = {
@@ -528,7 +629,9 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "What's Next";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "What's Next needs access to your calendar to suggest time-sensitive tasks.";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "What's Next needs full access to Reminders to read your tasks and suggest what to work on next.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -558,7 +661,9 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "What's Next";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "What's Next needs access to your calendar to suggest time-sensitive tasks.";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "What's Next needs full access to Reminders to read your tasks and suggest what to work on next.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -570,6 +675,42 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		T8000002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whatsnext.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhatsNext.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhatsNext";
+			};
+			name = Debug;
+		};
+		T8000003 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whatsnext.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhatsNext.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WhatsNext";
 			};
 			name = Release;
 		};
@@ -590,6 +731,15 @@
 			buildConfigurations = (
 				F2000005 /* Debug */,
 				F2000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		T8000001 /* Build configuration list for PBXNativeTarget "WhatsNextTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				T8000002 /* Debug */,
+				T8000003 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
