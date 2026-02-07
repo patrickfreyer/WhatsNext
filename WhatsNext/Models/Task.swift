@@ -201,14 +201,18 @@ struct ClaudeTaskItem: Codable {
         sourceInfo: SourceInfo? = nil,
         modelUsed: String = "",
         promptExcerpt: String = "",
-        sourceNames: [String] = []
+        sourceNames: [String] = [],
+        fullPrompt: String? = nil,
+        fullResponse: String? = nil
     ) -> SuggestedTask {
         let log = GenerationLog(
             generatedAt: Date(),
             sourceNames: sourceNames,
             reasoning: reasoning ?? "",
             modelUsed: modelUsed,
-            promptExcerpt: promptExcerpt
+            promptExcerpt: promptExcerpt,
+            fullPrompt: fullPrompt,
+            fullResponse: fullResponse
         )
 
         return SuggestedTask(
