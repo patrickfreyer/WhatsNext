@@ -31,13 +31,17 @@ final class MenuBarViewModel: ObservableObject {
         configStore.configuration
     }
 
-    var maxTasksToShow: Int {
-        configStore.configuration.general.maxTasksToShow
-    }
-
-    /// Only show pending and inProgress tasks in the main list
+    /// All non-pruned tasks: active first (newest on top), then resolved (newest on top)
     var displayedTasks: [SuggestedTask] {
-        tasks.filter { $0.status == .pending || $0.status == .inProgress }
+        let cutoff = Calendar.current.date(byAdding: .day, value: -5, to: Date()) ?? Date()
+        return tasks
+            .filter { $0.updatedAt >= cutoff }
+            .sorted { a, b in
+                let aActive = a.status == .pending || a.status == .inProgress
+                let bActive = b.status == .pending || b.status == .inProgress
+                if aActive != bActive { return aActive }
+                return a.updatedAt > b.updatedAt
+            }
     }
 
     var refreshIntervalMinutes: Int {
@@ -89,12 +93,17 @@ final class MenuBarViewModel: ObservableObject {
             let (items, explorations) = await sourceManager.fetchAllItems()
             debugLog("[WhatsNext] Fetched \(items.count) items and \(explorations.count) explorations")
 
+            // Build feedback section from history
+            let feedbackRecords = TaskFeedbackStore.shared.recentRecords()
+            let feedbackSection = FeedbackSummarizer.buildFeedbackSection(records: feedbackRecords)
+
             // Analyze with Claude
             debugLog("[WhatsNext] Calling Claude for analysis...")
             let suggestedTasks = try await claudeService.analyzeSources(
                 items: items,
                 explorations: explorations,
-                config: configStore.configuration.claude
+                config: configStore.configuration.claude,
+                feedbackSection: feedbackSection
             )
             debugLog("[WhatsNext] Claude returned \(suggestedTasks.count) tasks")
 
@@ -123,11 +132,17 @@ final class MenuBarViewModel: ObservableObject {
 
     /// Dismiss a task (mark as dismissed so it doesn't come back)
     func dismissTask(_ task: SuggestedTask) {
+        if let record = task.toFeedbackRecord(outcome: .dismissed) {
+            TaskFeedbackStore.shared.recordOutcome(record)
+        }
         taskStore.updateTaskStatus(id: task.id, status: .dismissed)
     }
 
     /// Mark a task as completed
     func completeTask(_ task: SuggestedTask) {
+        if let record = task.toFeedbackRecord(outcome: .completed) {
+            TaskFeedbackStore.shared.recordOutcome(record)
+        }
         taskStore.updateTaskStatus(id: task.id, status: .completed)
     }
 
