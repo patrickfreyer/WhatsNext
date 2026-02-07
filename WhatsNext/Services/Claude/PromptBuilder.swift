@@ -69,11 +69,22 @@ enum PromptBuilder {
         prompt += """
 
         Based on this information, identify the most important and actionable tasks.
+
+        CRITICAL RULES for task quality:
+        - Tasks MUST be specific and concrete, NOT vague or generic.
+        - BAD: "Clean up desktop", "Organize files", "Review code"
+        - GOOD: "Fix the unhandled nil crash in AuthService.swift:45", "Commit the 3 unstaged files in the WhatsNext repo", "Reply to John's email about the Q3 deadline by tomorrow"
+        - Every task title must reference a specific file, project, person, or action.
+        - The description must explain exactly WHAT needs to happen and WHERE.
+        - The suggestedCommand must be a real, runnable command with the correct working directory and a specific claude prompt describing the exact work.
+        - Do NOT suggest tasks that cannot be executed by Claude Code (e.g., "clean your desk", "take a break").
+        - Only suggest tasks grounded in the source data provided above. Do not invent tasks.
+
         Consider:
-        1. Time-sensitive items (due dates, meetings)
-        2. Incomplete work (TODOs, uncommitted changes)
-        3. Unread important emails that need response
-        4. Quick wins that would reduce mental load
+        1. Time-sensitive items (due dates, meetings) — include the actual date/time
+        2. Incomplete work (TODOs, FIXMEs, uncommitted changes) — reference the exact file and line
+        3. Unread important emails that need response — include the sender and subject
+        4. Quick wins that would reduce mental load — be specific about what and where
 
         Prioritize tasks that can be acted upon now with Claude Code.
         Respond with JSON only.
