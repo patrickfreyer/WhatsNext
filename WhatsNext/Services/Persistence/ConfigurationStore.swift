@@ -185,6 +185,9 @@ final class TaskStore: ObservableObject {
         return appSupport
     }
 
+    /// Resolved tasks older than this are pruned
+    private let taskRetentionDays = 5
+
     private init() {
         encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted]
@@ -194,20 +197,105 @@ final class TaskStore: ObservableObject {
         decoder.dateDecodingStrategy = .iso8601
 
         loadTasks()
+        pruneOldTasks()
     }
 
     // MARK: - Public Methods
 
-    func updateTasks(_ newTasks: [SuggestedTask]) {
-        tasks = newTasks.sorted { $0.priority.sortOrder < $1.priority.sortOrder }
-        lastRefreshed = Date()
+    /// Merge new tasks with existing ones, preserving statuses
+    func mergeTasks(_ newTasks: [SuggestedTask]) {
+        let now = Date()
+        var merged: [SuggestedTask] = []
+
+        // Build a lookup of existing tasks by normalized title
+        let existingByTitle = Dictionary(
+            tasks.map { ($0.normalizedTitle, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
+
+        // Build set of dismissed normalized titles to avoid re-adding
+        let dismissedTitles = Set(
+            tasks.filter { $0.status == .dismissed }.map { $0.normalizedTitle }
+        )
+
+        // Track which existing tasks have been matched
+        var matchedExistingIDs = Set<UUID>()
+
+        for newTask in newTasks {
+            let normalized = newTask.normalizedTitle
+
+            // Skip if this task was previously dismissed
+            if dismissedTitles.contains(normalized) {
+                continue
+            }
+
+            if let existing = existingByTitle[normalized] {
+                // Match found -- update the existing task's updatedAt, keep its status
+                var updated = existing
+                updated.updatedAt = now
+                // Also update fields that may have changed from AI
+                updated.description = newTask.description
+                updated.priority = newTask.priority
+                updated.estimatedMinutes = newTask.estimatedMinutes
+                updated.actionPlan = newTask.actionPlan
+                updated.suggestedCommand = newTask.suggestedCommand
+                updated.sourceInfo = newTask.sourceInfo
+                merged.append(updated)
+                matchedExistingIDs.insert(existing.id)
+            } else {
+                // Truly new task
+                var task = newTask
+                task.status = .pending
+                task.updatedAt = now
+                merged.append(task)
+            }
+        }
+
+        // Keep existing inProgress and completed tasks that weren't matched
+        for existing in tasks {
+            if !matchedExistingIDs.contains(existing.id) &&
+               (existing.status == .inProgress || existing.status == .completed) {
+                merged.append(existing)
+            }
+        }
+
+        // Sort: inProgress first, then pending by priority, then completed
+        merged.sort { a, b in
+            if a.status.sortOrder != b.status.sortOrder {
+                return a.status.sortOrder < b.status.sortOrder
+            }
+            return a.priority.sortOrder < b.priority.sortOrder
+        }
+
+        tasks = merged
+        lastRefreshed = now
         save()
     }
 
     func addTask(_ task: SuggestedTask) {
         tasks.append(task)
-        tasks.sort { $0.priority.sortOrder < $1.priority.sortOrder }
+        tasks.sort {
+            if $0.status.sortOrder != $1.status.sortOrder {
+                return $0.status.sortOrder < $1.status.sortOrder
+            }
+            return $0.priority.sortOrder < $1.priority.sortOrder
+        }
         save()
+    }
+
+    func updateTaskStatus(id: UUID, status: TaskStatus) {
+        if let index = tasks.firstIndex(where: { $0.id == id }) {
+            tasks[index].status = status
+            tasks[index].updatedAt = Date()
+            // Re-sort after status change
+            tasks.sort {
+                if $0.status.sortOrder != $1.status.sortOrder {
+                    return $0.status.sortOrder < $1.status.sortOrder
+                }
+                return $0.priority.sortOrder < $1.priority.sortOrder
+            }
+            save()
+        }
     }
 
     func removeTask(id: UUID) {
