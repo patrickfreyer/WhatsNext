@@ -175,7 +175,9 @@ enum ResponseParser {
             sourceNames: sourceNames,
             reasoning: reasoning ?? "",
             modelUsed: modelUsed,
-            promptExcerpt: promptExcerpt
+            promptExcerpt: promptExcerpt,
+            fullPrompt: fullPrompt,
+            fullResponse: fullResponse
         )
 
         return SuggestedTask(
