@@ -627,12 +627,11 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WhatsNext/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "What's Next";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "What's Next needs access to your calendar to suggest time-sensitive tasks.";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
-				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "What's Next needs full access to Reminders to read your tasks and suggest what to work on next.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to your calendar to suggest time-sensitive tasks.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -659,12 +658,11 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WhatsNext/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "What's Next";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "What's Next needs access to your calendar to suggest time-sensitive tasks.";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
-				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "What's Next needs full access to Reminders to read your tasks and suggest what to work on next.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "What's Next needs access to your calendar to suggest time-sensitive tasks.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "What's Next needs access to Reminders to suggest tasks based on your reminders.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
