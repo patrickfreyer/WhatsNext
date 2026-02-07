@@ -11,20 +11,44 @@ struct TaskRowView: View {
     @State private var isHovered = false
     @State private var isExpanded = false
 
+    private var isResolved: Bool {
+        task.status == .completed || task.status == .dismissed
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Main row
             HStack(alignment: .top, spacing: 10) {
-                // Priority indicator
-                priorityIndicator
+                // Priority indicator or status icon
+                if isResolved {
+                    Image(systemName: task.status == .completed ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .font(.system(size: 10))
+                        .foregroundColor(task.status == .completed ? .green.opacity(0.6) : .secondary.opacity(0.5))
+                        .padding(.top, 3)
+                } else {
+                    priorityIndicator
+                }
 
                 // Content
                 VStack(alignment: .leading, spacing: 4) {
                     Text(task.title)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.system(size: 13, weight: isResolved ? .regular : .medium))
+                        .foregroundColor(isResolved ? .secondary : .primary)
+                        .strikethrough(task.status == .completed)
                         .lineLimit(isExpanded ? nil : 2)
 
                     HStack(spacing: 8) {
+                        // Status badge for resolved tasks
+                        if isResolved {
+                            Text(task.status == .completed ? "Completed" : "Dismissed")
+                                .font(.system(size: 9, weight: .medium))
+                                .foregroundColor(task.status == .completed ? .green : .secondary)
+                                .padding(.horizontal, 5)
+                                .padding(.vertical, 1)
+                                .background((task.status == .completed ? Color.green : Color.secondary).opacity(0.15))
+                                .cornerRadius(3)
+                        }
+
                         // Source info
                         if let sourceInfo = task.sourceInfo {
                             Label(sourceInfo.sourceName, systemImage: sourceInfo.sourceType.iconName)
@@ -33,14 +57,16 @@ struct TaskRowView: View {
                         }
 
                         // Time estimate
-                        if let minutes = task.estimatedMinutes {
+                        if let minutes = task.estimatedMinutes, !isResolved {
                             Label("\(minutes)m", systemImage: "clock")
                                 .font(.caption2)
                                 .foregroundColor(.secondary)
                         }
 
-                        // First seen
-                        Text("added \(task.createdAt.formatted(.relative(presentation: .named)))")
+                        // Timestamp
+                        Text(isResolved
+                            ? "\(task.updatedAt.formatted(.relative(presentation: .named)))"
+                            : "added \(task.createdAt.formatted(.relative(presentation: .named)))")
                             .font(.caption2)
                             .foregroundColor(.secondary.opacity(0.7))
                     }
@@ -48,8 +74,8 @@ struct TaskRowView: View {
 
                 Spacer()
 
-                // Action buttons
-                if isHovered || isExpanded {
+                // Action buttons (only for active tasks)
+                if !isResolved && (isHovered || isExpanded) {
                     actionButtons
                 }
             }
@@ -61,6 +87,7 @@ struct TaskRowView: View {
         }
         .padding(10)
         .background(isHovered ? Color.secondary.opacity(0.1) : Color.clear)
+        .opacity(isResolved ? 0.7 : 1.0)
         .cornerRadius(8)
         .onHover { hovering in
             isHovered = hovering
