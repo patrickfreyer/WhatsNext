@@ -35,12 +35,9 @@ final class MenuBarViewModel: ObservableObject {
         configStore.configuration.general.maxTasksToShow
     }
 
+    /// Only show pending and inProgress tasks in the main list
     var displayedTasks: [SuggestedTask] {
-        Array(tasks.prefix(maxTasksToShow))
-    }
-
-    var hasMoreTasks: Bool {
-        tasks.count > maxTasksToShow
+        tasks.filter { $0.status == .pending || $0.status == .inProgress }
     }
 
     var refreshIntervalMinutes: Int {
@@ -101,8 +98,8 @@ final class MenuBarViewModel: ObservableObject {
             )
             debugLog("[WhatsNext] Claude returned \(suggestedTasks.count) tasks")
 
-            // Update tasks
-            taskStore.updateTasks(suggestedTasks)
+            // Merge tasks (preserves statuses of existing tasks)
+            taskStore.mergeTasks(suggestedTasks)
             lastRefreshDate = Date()
             debugLog("[WhatsNext] Refresh completed successfully")
 
@@ -124,9 +121,14 @@ final class MenuBarViewModel: ObservableObject {
         sessionLauncher.executeStep(step, task: task)
     }
 
-    /// Dismiss a task (remove from list)
+    /// Dismiss a task (mark as dismissed so it doesn't come back)
     func dismissTask(_ task: SuggestedTask) {
-        taskStore.removeTask(id: task.id)
+        taskStore.updateTaskStatus(id: task.id, status: .dismissed)
+    }
+
+    /// Mark a task as completed
+    func completeTask(_ task: SuggestedTask) {
+        taskStore.updateTaskStatus(id: task.id, status: .completed)
     }
 
     /// Clear all tasks
