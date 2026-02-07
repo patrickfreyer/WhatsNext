@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>What's Next needs full access to Reminders to read your tasks and suggest what to work on next.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>What's Next needs access to Reminders to suggest tasks based on your reminders.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>What's Next needs access to your calendar to suggest time-sensitive tasks.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>What's Next needs access to your calendar to suggest time-sensitive tasks.</string>
+</dict>
+</plist>
