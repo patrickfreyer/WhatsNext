@@ -321,6 +321,7 @@
 			children = (
 				B1000033 /* Assets.xcassets */,
 				B1000034 /* WhatsNext.entitlements */,
+				B1000039 /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
