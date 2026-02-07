@@ -21,12 +21,9 @@ struct MenuBarView: View {
                 TaskListView(
                     tasks: viewModel.displayedTasks,
                     onExecute: viewModel.executeTask,
-                    onDismiss: viewModel.dismissTask
+                    onDismiss: viewModel.dismissTask,
+                    onComplete: viewModel.completeTask
                 )
-
-                if viewModel.hasMoreTasks {
-                    moreTasksView
-                }
             }
 
             Divider()
