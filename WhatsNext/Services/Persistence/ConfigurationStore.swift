@@ -269,6 +269,7 @@ final class TaskStore: ObservableObject {
 
         tasks = merged
         lastRefreshed = now
+        pruneOldTasks()
         save()
     }
 
