@@ -10,7 +10,9 @@ enum ResponseParser {
         _ response: String,
         modelUsed: String = "",
         promptExcerpt: String = "",
-        sourceNames: [String] = []
+        sourceNames: [String] = [],
+        fullPrompt: String? = nil,
+        fullResponse: String? = nil
     ) throws -> [SuggestedTask] {
         // Step 1: Extract the actual result from Claude CLI wrapper
         let actualResult = extractResultFromCLIResponse(response)
