@@ -99,7 +99,9 @@ enum ResponseParser {
         from jsonString: String,
         modelUsed: String = "",
         promptExcerpt: String = "",
-        sourceNames: [String] = []
+        sourceNames: [String] = [],
+        fullPrompt: String? = nil,
+        fullResponse: String? = nil
     ) throws -> [SuggestedTask] {
         // Try to parse as array of tasks directly
         guard let data = jsonString.data(using: .utf8) else {
